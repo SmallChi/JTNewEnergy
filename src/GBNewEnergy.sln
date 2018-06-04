@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2018
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GBNewEnergy.Protocol", "GBNewEnergy.Protocol\GBNewEnergy.Protocol.csproj", "{1934F3A6-1396-46C2-BFD6-1E2DC1A26E3A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1934F3A6-1396-46C2-BFD6-1E2DC1A26E3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1934F3A6-1396-46C2-BFD6-1E2DC1A26E3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1934F3A6-1396-46C2-BFD6-1E2DC1A26E3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1934F3A6-1396-46C2-BFD6-1E2DC1A26E3A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E7AF20B3-4327-4DF7-B503-9FE08AA92A75}
+	EndGlobalSection
+EndGlobal
