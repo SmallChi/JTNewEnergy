@@ -1,4 +1,5 @@
 ﻿using GBNewEnergy.Protocol.Enums;
+using GBNewEnergy.Protocol.Exceptions;
 using GBNewEnergy.Protocol.Extensions;
 using System;
 using System.Text;
@@ -12,12 +13,7 @@ namespace GBNewEnergy.Protocol
     {
         public NEHeader(byte[] buffer):base(buffer)
         {
-            if (buffer[0] != BeginFlag && buffer[1] == BeginFlag) throw new Exception("error");
-            MsgId =(MsgId)buffer[2];
-            AskId =(AskId)buffer[3];
-            VIN = Encoding.ASCII.GetString(buffer, 4, 17).Trim('\0');
-            EncryptMethod =(EncryptMethod)buffer[21];
-            DataUnitLength = buffer.ToIntH2L(22, 2);
+            
         }
         /// <summary>
         /// 起始符
@@ -40,9 +36,5 @@ namespace GBNewEnergy.Protocol
         /// 0x01：数据不加密；0x02：数据经过 RSA 算法加密；0x03:数据经过 AES128 位算法加密；“0xFE”表示异常，“0xFF”表示无效
         /// </summary>
         public EncryptMethod EncryptMethod { get; private set; }
-        /// <summary>
-        /// 数据单元长度是数据单元的总字节数，有效值范围：0-65531
-        /// </summary>
-        public int DataUnitLength { get; private set; }
     }
 }
