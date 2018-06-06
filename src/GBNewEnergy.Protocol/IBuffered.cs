@@ -2,6 +2,6 @@
 {
     public interface IBuffered
     {
-        void ToBuffer();
+        byte[] ToBuffer();
     }
 }

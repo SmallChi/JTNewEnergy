@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GBNewEnergy.Protocol
 {
-    public abstract class NEUpStreamBase: IBuffered, IBuffer
+    public abstract class NEUpStreamBase
     {
         public DateTime Utc{ get; set; }
         public byte[] Buffer { get;protected set; }

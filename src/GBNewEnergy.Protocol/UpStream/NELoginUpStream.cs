@@ -4,12 +4,13 @@ using System.Text;
 
 namespace GBNewEnergy.Protocol.Request
 {
-    public class NELoginUpStream: NEUpStreamBase
+    public class NELoginUpStream: NEBodies
     {
-        /// <summary>
-        /// 登入流水号
-        /// </summary>
-        public int LoginNum { get; set; }
+        protected NELoginUpStream(byte[] buffer) : base(buffer)
+        {
+
+        }
+
         /// <summary>
         /// SIM 卡号 
         /// </summary>
@@ -26,10 +27,5 @@ namespace GBNewEnergy.Protocol.Request
         /// 电池编码
         /// </summary>
         public IEnumerable<string> BatteryNos { get; set; }
-
-        public override void ToBuffer()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

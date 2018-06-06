@@ -5,7 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="BufferedEntityBase.cs" />
+    <Compile Remove="NEDownStreamBase.cs" />
     <Compile Remove="NEHeader.cs" />
+    <Compile Remove="NEUpStreamBase.cs" />
   </ItemGroup>
 
 </Project>
