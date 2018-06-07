@@ -9,5 +9,15 @@ namespace GBNewEnergy.Protocol.Response
         protected NELoginDownStream(byte[] buffer) : base(buffer)
         {
         }
+
+        protected NELoginDownStream(string vin) : base(vin)
+        {
+
+        }
+
+        public override void ToBuffer()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

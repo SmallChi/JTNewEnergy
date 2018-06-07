@@ -2,8 +2,6 @@
 using GBNewEnergy.Protocol.Exceptions;
 using GBNewEnergy.Protocol.Extensions;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 
 namespace GBNewEnergy.Protocol
@@ -15,13 +13,51 @@ namespace GBNewEnergy.Protocol
     {
         public NEPackage(byte[] header,byte[] body)
         {
+            // 判断头部异常
             if (header[0] != BeginFlag && header[1] == BeginFlag) throw new NEException(ErrorCode.BeginFlagError, $"{header[0]},{header[1]}");
+            // 组包
+            byte[] packageBuffer = new byte[header.Length + body.Length];
+            Array.Copy(header, 0, packageBuffer, 0, header.Length);
+            Array.Copy(body, 0, packageBuffer, header.Length, body.Length);
+            // 获取数据单元长度
+            DataUnitLength = header.ReadUShortH2LLittle(22, 2);
+            // 进行BCC校验码
+            // 校验位=报文长度 - 最后一位（校验位） - 偏移量（2）
+            int checkBit = packageBuffer.Length - 1 - 2;
+            byte bCCCode = packageBuffer.ToXor(2, checkBit);
+            byte bCCCode2 = body[body.Length - 1];
+            if (bCCCode != bCCCode2) throw new NEException(ErrorCode.BCCCodeError, $"request:{bCCCode2}!=calculate:{bCCCode}");
             MsgId = (MsgId)header[2];
             AskId = (AskId)header[3];
-            VIN = Encoding.ASCII.GetString(header, 4, 17).Trim('\0');
+            VIN = header.ReadStringLittle(4, 17);
             EncryptMethod = (EncryptMethod)header[21];
-            DataUnitLength = header.ToIntH2L(22, 2);
+            // 通过命令id获取数据体
+            Bodies = NEBodiesFactory.GetNEBodiesByMsgId(MsgId, body);
+            Buffer = packageBuffer;
             Header = header;
+        }
+
+        public NEPackage(byte[] buf)
+        {
+            if (buf[0] != BeginFlag && buf[1] == BeginFlag) throw new NEException(ErrorCode.BeginFlagError, $"{buf[0]},{buf[1]}");
+            MsgId = (MsgId)buf[2];
+            AskId = (AskId)buf[3];
+            VIN = buf.ReadStringLittle(4, 17);
+            EncryptMethod = (EncryptMethod)buf[21];
+            DataUnitLength = buf.ReadUShortH2LLittle(22, 2);
+            // 进行BCC校验码
+            // 校验位 = 报文长度 - 最后一位（校验位） - 偏移量（2）
+            int checkBit = buf.Length - CheckBit - 2;
+            byte bCCCode = buf.ToXor(2, checkBit);
+            byte bCCCode2 = buf[buf.Length - CheckBit];
+            if (bCCCode != bCCCode2)
+            {
+                throw new NEException(ErrorCode.BCCCodeError, $"request:{bCCCode2}!=calculate:{bCCCode}");
+            }
+            Bodies = NEBodiesFactory.GetNEBodiesByMsgId(MsgId, buf);
+            Buffer = new byte[buf.Length + Bodies.Buffer.Length];
+            Array.Copy(buf, 0, Buffer, 0, buf.Length);
+            Array.Copy(Bodies.Buffer, 0, Buffer, buf.Length, Bodies.Buffer.Length);
         }
 
         public NEPackage(string vin, MsgId msgId, AskId askId, NEBodies bodies,EncryptMethod encryptMethod)
@@ -42,6 +78,10 @@ namespace GBNewEnergy.Protocol
         /// 起始符
         /// </summary>
         public const byte BeginFlag = 0x23;
+        /// <summary>
+        /// 校验位1字节
+        /// </summary>
+        private const int CheckBit = 1;
         /// <summary>
         /// 命令标识 
         /// </summary>
@@ -79,27 +119,23 @@ namespace GBNewEnergy.Protocol
 
         public byte[] Buffer { get; private set; }
 
-        public override string ToString()
-        {
-            return this.Header.ToHexString()+" " +this.Buffer.ToHexString();
-        }
-
         private void ToBuffer()
         {
             // 固定单元长度
             DataUnitLength = Bodies.Buffer.Length;
-            Buffer = new byte[HeaderFixedByteLength + 1 + DataUnitLength];
+            Buffer = new byte[HeaderFixedByteLength + DataUnitLength + CheckBit];
             Buffer[0] = BeginFlag;
             Buffer[1] = BeginFlag;
             Buffer[2] = (byte)MsgId;
             Buffer[3] = (byte)AskId;
-            Array.Copy(VIN.ToBytes(), 0, Buffer, 4, 20);
+            Buffer.WriteLittle(VIN, 4);
             Buffer[21] = (byte)EncryptMethod;
-            Array.Copy(DataUnitLength.ToBytes(2), 0, Buffer, 22, 23);
-            Array.Copy(Bodies.Buffer, 0, Buffer, 24, DataUnitLength);
-            BCCCode = Buffer.ToXor(2, 23 + DataUnitLength);
+            Buffer.WriteLittle(DataUnitLength, 22, 2);
+            Buffer.WriteLittle(Bodies.Buffer, 24, DataUnitLength);
+            BCCCode = Buffer.ToXor(2, (HeaderFixedByteLength + DataUnitLength - 1));
             Buffer[HeaderFixedByteLength + DataUnitLength] = BCCCode;
-            Array.Copy(Buffer,0, Header, 0, 22);
+            Header = new byte[HeaderFixedByteLength];
+            Array.Copy(Buffer, 0, Header, 0, HeaderFixedByteLength);
         }
     }
 }

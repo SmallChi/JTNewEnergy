@@ -6,6 +6,7 @@ namespace GBNewEnergy.Protocol.Enums
 {
     public enum ErrorCode
     {
-        BeginFlagError = 1001
+        BeginFlagError = 1001,
+        BCCCodeError = 1001
     }
 }
