@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27703.2018
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GBNewEnergy.Protocol", "GBNewEnergy.Protocol\GBNewEnergy.Protocol.csproj", "{1934F3A6-1396-46C2-BFD6-1E2DC1A26E3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GBNewEnergy.Protocol.Test", "GBNewEnergy.Protocol.Test\GBNewEnergy.Protocol.Test.csproj", "{AAA669F5-E689-40CA-97EF-B5BA672B11DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GBNewEnergy.Protocol.Test", "GBNewEnergy.Protocol.Test\GBNewEnergy.Protocol.Test.csproj", "{AAA669F5-E689-40CA-97EF-B5BA672B11DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

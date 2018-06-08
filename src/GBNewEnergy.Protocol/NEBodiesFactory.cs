@@ -20,6 +20,8 @@ namespace GBNewEnergy.Protocol
             {
                 case MsgId.login:
                     return new NELoginUpStream(buf);
+                case MsgId.loginout:
+                    return new NELogoutUpStream(buf);
                 default:
                     return null;
             }

@@ -5,6 +5,9 @@ using System.Text;
 
 namespace GBNewEnergy.Protocol.UpStream
 {
+    /// <summary>
+    /// 车辆登入
+    /// </summary>
     public class NELoginUpStream : NEBodies
     {
         public NELoginUpStream(byte[] buffer) : base(buffer)
