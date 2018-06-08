@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GBNewEnergy.Protocol.Enums
 {
-    public enum ErrorCode
+    public enum NEErrorCode
     {
         /// <summary>
         /// 开始标识错误

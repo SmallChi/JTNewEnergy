@@ -1,6 +1,8 @@
 ﻿using GBNewEnergy.Protocol.Extensions;
+using GBNewEnergy.Protocol.NEProperties;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace GBNewEnergy.Protocol.UpStream
@@ -12,49 +14,11 @@ namespace GBNewEnergy.Protocol.UpStream
     {
         public NELoginUpStream(byte[] buffer) : base(buffer)
         {
-            CurrentDateTime = buffer.ReadDateTimeLittle(0, 6);
-            LoginNum = buffer.ReadUShortH2LLittle(6, 2);
-            SIM = buffer.ReadStringLittle(8, 20);
-            BatteryCount = buffer[28];
-            BatteryLength = buffer[29];
-            List<string> batteryNos = new List<string>();
-            for (int i = 0; i < BatteryCount; i++)
-            {
-                batteryNos.Add(buffer.ReadStringLittle(i * BatteryLength + 30, BatteryLength));
-            }
-            BatteryNos = batteryNos;
+            
         }
 
-        public NELoginUpStream(string vin, string sim, byte batteryCount, byte batteryLength, IEnumerable<string> batteryNos) : base(vin)
+        public NELoginUpStream(INEProperties nEProperties) : base(nEProperties)
         {
-            if (LoginNumDict.ContainsKey(vin))
-            {
-                (ushort LoginNum, DateTime ExpirationTime) temp;
-                if (LoginNumDict.TryGetValue(vin, out temp))
-                {
-                    // 不等于当天
-                    if (temp.ExpirationTime != DateTime.Now.Date)
-                    {
-                        LoginNum = 1;
-                        LoginNumDict.TryUpdate(vin, (LoginNum, DateTime.Now.Date), temp);
-                    }
-                    else
-                    {// 自增1 更新字典
-                        LoginNum = temp.LoginNum++;
-                        LoginNumDict.TryUpdate(vin, (LoginNum, DateTime.Now.Date), temp);
-                    }
-                }
-            }
-            else
-            {
-                LoginNum = 1;
-                LoginNumDict.TryAdd(vin, (LoginNum, DateTime.Now.Date));
-            }
-            SIM = sim;
-            BatteryCount = batteryCount;
-            BatteryLength = batteryLength;
-            BatteryNos = batteryNos;
-            ToBuffer();
         }
 
         /// <summary>
@@ -77,7 +41,7 @@ namespace GBNewEnergy.Protocol.UpStream
         /// </summary>
         public IEnumerable<string> BatteryNos { get; set; }
 
-        public override void ToBuffer()
+        protected override void ToBuffer()
         {
             // 根据协议说明书
             Buffer = new byte[6 + 2 + 20 + 1 + 1 + (BatteryCount * BatteryLength)];
@@ -91,6 +55,53 @@ namespace GBNewEnergy.Protocol.UpStream
                 string str = string.Join("", BatteryNos);
                 Buffer.WriteLittle(str, 30);
             }
+        }
+
+        protected override void InitializeProperties(INEProperties nEProperties)
+        {
+            NELoginProperty nELoginProperty = (NELoginProperty)nEProperties;
+            if (LoginNumDict.ContainsKey(nELoginProperty.VIN))
+            {
+                (ushort LoginNum, DateTime ExpirationTime) temp;
+                if (LoginNumDict.TryGetValue(nELoginProperty.VIN, out temp))
+                {
+                    // 不等于当天
+                    if (temp.ExpirationTime != DateTime.Now.Date)
+                    {
+                        LoginNum = 1;
+                        LoginNumDict.TryUpdate(nELoginProperty.VIN, (LoginNum, DateTime.Now.Date), temp);
+                    }
+                    else
+                    {// 自增1 更新字典
+                        LoginNum = temp.LoginNum++;
+                        LoginNumDict.TryUpdate(nELoginProperty.VIN, (LoginNum, DateTime.Now.Date), temp);
+                    }
+                }
+            }
+            else
+            {
+                LoginNum = 1;
+                LoginNumDict.TryAdd(nELoginProperty.VIN, (LoginNum, DateTime.Now.Date));
+            }
+            SIM = nELoginProperty.SIM;
+            BatteryCount = nELoginProperty.BatteryCount;
+            BatteryLength = nELoginProperty.BatteryLength;
+            BatteryNos = nELoginProperty.BatteryNos;
+        }
+
+        protected override void InitializePropertiesFromBuffer()
+        {
+            CurrentDateTime = Buffer.ReadDateTimeLittle(0, 6);
+            LoginNum = Buffer.ReadUShortH2LLittle(6, 2);
+            SIM = Buffer.ReadStringLittle(8, 20);
+            BatteryCount = Buffer[28];
+            BatteryLength = Buffer[29];
+            List<string> batteryNos = new List<string>();
+            for (int i = 0; i < BatteryCount; i++)
+            {
+                batteryNos.Add(Buffer.ReadStringLittle(i * BatteryLength + 30, BatteryLength));
+            }
+            BatteryNos = batteryNos;
         }
     }
 }

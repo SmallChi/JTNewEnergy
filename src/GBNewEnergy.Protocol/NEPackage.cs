@@ -1,74 +1,28 @@
 ﻿using GBNewEnergy.Protocol.Enums;
 using GBNewEnergy.Protocol.Exceptions;
 using GBNewEnergy.Protocol.Extensions;
+using GBNewEnergy.Protocol.NEProperties;
 using System;
-
+using System.IO;
 
 namespace GBNewEnergy.Protocol
 {
     /// <summary>
     /// 新能源包
     /// </summary>
-    public class NEPackage:IBuffer
+    public class NEPackage : NEBufferedEntityBase
     {
-        public NEPackage(byte[] header,byte[] body)
+        public NEPackage(byte[] header, byte[] body) : base(header, body)
         {
-            // 判断头部异常
-            if (header[0] != BeginFlag && header[1] == BeginFlag) throw new NEException(ErrorCode.BeginFlagError, $"{header[0]},{header[1]}");
-            // 组包
-            byte[] packageBuffer = new byte[header.Length + body.Length];
-            Array.Copy(header, 0, packageBuffer, 0, header.Length);
-            Array.Copy(body, 0, packageBuffer, header.Length, body.Length);
-            // 获取数据单元长度
-            DataUnitLength = header.ReadUShortH2LLittle(22, 2);
-            // 进行BCC校验码
-            // 校验位=报文长度 - 最后一位（校验位） - 偏移量（2）
-            int checkBit = packageBuffer.Length - 1 - 2;
-            byte bCCCode = packageBuffer.ToXor(2, checkBit);
-            byte bCCCode2 = body[body.Length - 1];
-            if (bCCCode != bCCCode2) throw new NEException(ErrorCode.BCCCodeError, $"request:{bCCCode2}!=calculate:{bCCCode}");
-            MsgId = (MsgId)header[2];
-            AskId = (AskId)header[3];
-            VIN = header.ReadStringLittle(4, 17);
-            EncryptMethod = (EncryptMethod)header[21];
-            // 通过命令id获取数据体
-            Bodies = NEBodiesFactory.GetNEBodiesByMsgId(MsgId, body);
-            Buffer = packageBuffer;
-            Header = header;
         }
 
-        public NEPackage(byte[] buf)
+        public NEPackage(byte[] buf) : base(buf)
         {
-            if (buf[0] != BeginFlag && buf[1] == BeginFlag) throw new NEException(ErrorCode.BeginFlagError, $"{buf[0]},{buf[1]}");
-            MsgId = (MsgId)buf[2];
-            AskId = (AskId)buf[3];
-            VIN = buf.ReadStringLittle(4, 17);
-            EncryptMethod = (EncryptMethod)buf[21];
-            DataUnitLength = buf.ReadUShortH2LLittle(22, 2);
-            // 进行BCC校验码
-            // 校验位 = 报文长度 - 最后一位（校验位） - 偏移量（2）
-            int checkBit = buf.Length - CheckBit - 2;
-            byte bCCCode = buf.ToXor(2, checkBit);
-            byte bCCCode2 = buf[buf.Length - CheckBit];
-            if (bCCCode != bCCCode2)
-            {
-                throw new NEException(ErrorCode.BCCCodeError, $"request:{bCCCode2}!=calculate:{bCCCode}");
-            }
-            Bodies = NEBodiesFactory.GetNEBodiesByMsgId(MsgId, buf);
-            Buffer = new byte[buf.Length + Bodies.Buffer.Length];
-            Array.Copy(buf, 0, Buffer, 0, buf.Length);
-            Array.Copy(Bodies.Buffer, 0, Buffer, buf.Length, Bodies.Buffer.Length);
         }
 
-        public NEPackage(string vin, MsgId msgId, AskId askId, NEBodies bodies,EncryptMethod encryptMethod)
-        {
-            MsgId = msgId;
-            AskId = askId;
-            VIN = vin;
-            EncryptMethod = encryptMethod;
-            Bodies = bodies;
-            ToBuffer();
-        }
+        public NEPackage(INEProperties nEProperties)
+            : base(nEProperties)
+        { }
 
         /// <summary>
         /// 固定为24个字节长度
@@ -85,11 +39,11 @@ namespace GBNewEnergy.Protocol
         /// <summary>
         /// 命令标识 
         /// </summary>
-        public MsgId MsgId { get; private set; }
+        public NEMsgId MsgId { get; private set; }
         /// <summary>
         /// 应答标志 
         /// </summary>
-        public AskId AskId { get; private set; }
+        public NEAskId AskId { get; private set; }
         /// <summary>
         /// 车辆识别码
         /// </summary>
@@ -98,7 +52,7 @@ namespace GBNewEnergy.Protocol
         /// 数据加密方式 
         /// 0x01：数据不加密；0x02：数据经过 RSA 算法加密；0x03:数据经过 AES128 位算法加密；“0xFE”表示异常，“0xFF”表示无效
         /// </summary>
-        public EncryptMethod EncryptMethod { get; private set; }
+        public NEEncryptMethod EncryptMethod { get; private set; }
         /// <summary>
         /// 数据单元长度是数据单元的总字节数，有效值范围：0-65531
         /// </summary>
@@ -115,11 +69,9 @@ namespace GBNewEnergy.Protocol
         /// <summary>
         /// 数据体
         /// </summary>
-        public NEBodies Bodies { get;protected set; }
+        public NEBodies Bodies { get; protected set; }
 
-        public byte[] Buffer { get; private set; }
-
-        private void ToBuffer()
+        protected override void ToBuffer()
         {
             // 固定单元长度
             DataUnitLength = Bodies.Buffer.Length;
@@ -134,6 +86,41 @@ namespace GBNewEnergy.Protocol
             Buffer.WriteLittle(Bodies.Buffer, 24, DataUnitLength);
             BCCCode = Buffer.ToXor(2, (HeaderFixedByteLength + DataUnitLength - 1));
             Buffer[HeaderFixedByteLength + DataUnitLength] = BCCCode;
+            Header = new byte[HeaderFixedByteLength];
+            Array.Copy(Buffer, 0, Header, 0, HeaderFixedByteLength);
+        }
+
+        protected override void InitializeProperties(INEProperties nEProperties)
+        {
+            NEPackageProperty nEPackageProperty = (NEPackageProperty)nEProperties;
+            VIN = nEPackageProperty.VIN;
+            MsgId = nEPackageProperty.MsgId;
+            AskId = nEPackageProperty.AskId;
+            Bodies = nEPackageProperty.Bodies;
+            EncryptMethod = nEPackageProperty.EncryptMethod;
+        }
+
+        protected override void InitializePropertiesFromBuffer()
+        {
+            if (Buffer[0] != BeginFlag && Buffer[1] == BeginFlag) throw new NEException(NEErrorCode.BeginFlagError, $"{Buffer[0]},{Buffer[1]}");
+            MsgId = (NEMsgId)Buffer[2];
+            AskId = (NEAskId)Buffer[3];
+            VIN = Buffer.ReadStringLittle(4, 17);
+            EncryptMethod = (NEEncryptMethod)Buffer[21];
+            DataUnitLength = Buffer.ReadUShortH2LLittle(22, 2);
+            // 进行BCC校验码
+            // 校验位 = 报文长度 - 最后一位（校验位） - 偏移量（2）
+            int checkBit = Buffer.Length - CheckBit - 2;
+            byte bCCCode = Buffer.ToXor(2, checkBit);
+            byte bCCCode2 = Buffer[Buffer.Length - CheckBit];
+            if (bCCCode != bCCCode2)
+            {
+                throw new NEException(NEErrorCode.BCCCodeError, $"request:{bCCCode2}!=calculate:{bCCCode}");
+            }
+            BCCCode = bCCCode2;
+            byte[] bodiesBytes = new byte[DataUnitLength + CheckBit];
+            Array.Copy(Buffer, HeaderFixedByteLength, bodiesBytes, 0, bodiesBytes.Length);
+            Bodies = NEBodiesFactory.GetNEBodiesByMsgId(MsgId, bodiesBytes);
             Header = new byte[HeaderFixedByteLength];
             Array.Copy(Buffer, 0, Header, 0, HeaderFixedByteLength);
         }

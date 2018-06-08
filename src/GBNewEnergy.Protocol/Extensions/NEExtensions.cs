@@ -84,12 +84,32 @@ namespace GBNewEnergy.Protocol.Extensions
 
         public static void WriteLittle(this byte[] write, DateTime date, int offset,int len)
         {
-            write[offset] = (byte)(date.Year - DateLimitYear);
-            write[++offset] = (byte)date.Month;
-            write[++offset] = (byte)date.Day;
-            write[++offset] = (byte)date.Hour;
-            write[++offset] = (byte)date.Minute;
-            write[++offset] = (byte)date.Second;
+            write[offset++] = (byte)(date.Year - DateLimitYear);
+            write[offset++] = (byte)date.Month;
+            write[offset++] = (byte)date.Day;
+            write[offset++] = (byte)date.Hour;
+            write[offset++] = (byte)date.Minute;
+            write[offset++] = (byte)date.Second;
+        }
+
+        public static void WriteLittle(this BinaryWriter write, string str,Encoding coding)
+        {
+            write.Write(coding.GetBytes(str));
+        }
+
+        public static void WriteLittle(this BinaryWriter write, string str)
+        {
+            write.Write(Encoding.ASCII.GetBytes(str));
+        }
+
+        public static void WriteLittle(this BinaryWriter write, int data, int len)
+        {
+            int n = 1;
+            for (int i = 0; i < len; i++)
+            {
+                write.Write((byte)(data >> 8 * (len - n)));
+                n++;
+            }
         }
 
         /// <summary>

@@ -7,7 +7,7 @@ namespace GBNewEnergy.Protocol.Enums
     /// <summary>
     /// 应答标志
     /// </summary>
-    public enum AskId:byte
+    public enum NEAskId:byte
     {
         /// <summary>
         /// 接收到的信息正确

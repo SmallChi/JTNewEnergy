@@ -7,17 +7,17 @@ namespace GBNewEnergy.Protocol.Exceptions
 {
     public class NEException:Exception
     {
-        public NEException(ErrorCode errorCode) : base(errorCode.ToString())
+        public NEException(NEErrorCode errorCode) : base(errorCode.ToString())
         {
             this.ErrorCode = errorCode;
         }
 
-        public NEException(ErrorCode errorCode, string message) : base(message)
+        public NEException(NEErrorCode errorCode, string message) : base(message)
         {
             this.ErrorCode = errorCode;
         }
 
 
-        public ErrorCode ErrorCode { get; }
+        public NEErrorCode ErrorCode { get; }
     }
 }

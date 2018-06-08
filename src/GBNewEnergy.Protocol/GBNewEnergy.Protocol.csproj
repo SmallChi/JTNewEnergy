@@ -5,10 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="BufferedEntityBase.cs" />
+    <Compile Remove="DownStream\NELoginDownStream.cs" />
+    <Compile Remove="IBuffer.cs" />
+    <Compile Remove="IBuffered.cs" />
     <Compile Remove="NEDownStreamBase.cs" />
     <Compile Remove="NEHeader.cs" />
     <Compile Remove="NEUpStreamBase.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DownStream\" />
+    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>

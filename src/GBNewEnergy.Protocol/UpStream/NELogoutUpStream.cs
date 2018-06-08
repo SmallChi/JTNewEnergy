@@ -3,35 +3,41 @@ using GBNewEnergy.Protocol.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using GBNewEnergy.Protocol.NEProperties;
 
 namespace GBNewEnergy.Protocol.UpStream
 {
     /// <summary>
-    /// 车辆登入
+    /// 车辆登出
     /// </summary>
     public class NELogoutUpStream : NEBodies
     {
         public NELogoutUpStream(byte[] buffer) : base(buffer)
-        {
-            CurrentDateTime = buffer.ReadDateTimeLittle(0, 6);
-            LoginNum = buffer.ReadUShortH2LLittle(6, 2);
-        }
+        {}
 
-        public NELogoutUpStream(string vin) : base(vin)
+        public NELogoutUpStream(INEProperties nEProperties) : base(nEProperties){}
+
+        protected override void InitializeProperties(INEProperties nEProperties)
         {
+            NELogoutProperty nELogoutProperty = (NELogoutProperty)nEProperties;
             (ushort LoginNum, DateTime ExpirationTime) temp;
-            if (LoginNumDict.TryGetValue(vin, out temp))
+            if (LoginNumDict.TryGetValue(nELogoutProperty.VIN, out temp))
             {
                 LoginNum = temp.LoginNum;
             }
             else
             {
-                throw new NEException(Enums.ErrorCode.LoginSerialNoError, "Must Dependency NELoginUpStream Class.");
+                throw new NEException(Enums.NEErrorCode.LoginSerialNoError, "Must Dependency NELoginUpStream Class.");
             }
-            ToBuffer();
         }
 
-        public override void ToBuffer()
+        protected override void InitializePropertiesFromBuffer()
+        {
+            CurrentDateTime = Buffer.ReadDateTimeLittle(0, 6);
+            LoginNum = Buffer.ReadUShortH2LLittle(6, 2);
+        }
+
+        protected override void ToBuffer()
         {
             Buffer = new byte[8];
             Buffer.WriteLittle(CurrentDateTime, 0, 6);

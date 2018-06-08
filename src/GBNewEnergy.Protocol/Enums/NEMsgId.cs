@@ -7,7 +7,7 @@ namespace GBNewEnergy.Protocol.Enums
     /// <summary>
     /// 命令单元
     /// </summary>
-    public enum MsgId:byte
+    public enum NEMsgId:byte
     {
         /// <summary>
         /// 车辆登入

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GBNewEnergy.Protocol
 {
-    public abstract class NEBodies : IBuffer, IBuffered
+    public abstract class NEBodies : NEBufferedEntityBase
     {
         /// <summary>
         /// VIN - 登录流水号,过期时间（每天置1）
@@ -28,20 +28,10 @@ namespace GBNewEnergy.Protocol
         /// 数据采集时间
         /// 采用北京时间
         /// </summary>
-        public DateTime CurrentDateTime { get; protected set; }
+        public DateTime CurrentDateTime { get; protected set; } = DateTime.Now;
 
-        public byte[] Buffer { get; protected set; }
+        protected NEBodies(byte[] buffer):base(buffer){}
 
-        protected NEBodies(byte[] buffer)
-        {
-            Buffer = buffer;
-        }
-
-        protected NEBodies(string vin)
-        {
-            CurrentDateTime = DateTime.Now;
-        }
-
-        public abstract void ToBuffer();
+        protected NEBodies(INEProperties  nEProperties) : base(nEProperties){}
     }
 }

@@ -8,7 +8,7 @@ namespace GBNewEnergy.Protocol.Enums
     /// 数据单元加密方式
     /// 0x01：数据不加密；0x02：数据经过 RSA 算法加密；0x03:数据经过 AES128 位算法加密；“0xFE”表示异常，“0xFF”表示无效
     /// </summary>
-    public enum EncryptMethod:byte
+    public enum NEEncryptMethod:byte
     {
         None= 0x01,
         RSA= 0x02,
