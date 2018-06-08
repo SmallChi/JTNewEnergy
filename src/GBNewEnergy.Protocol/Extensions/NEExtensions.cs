@@ -16,11 +16,11 @@ namespace GBNewEnergy.Protocol.Extensions
         {
             return new DateTime(
                 read[offset] + DateLimitYear,
-                read[offset++],
-                read[offset++],
-                read[offset++],
-                read[offset++],
-                read[offset++]);
+                read[++offset],
+                read[++offset],
+                read[++offset],
+                read[++offset],
+                read[++offset]);
         }
 
         public static ushort ReadUShortH2LLittle(this byte[] read, int offset, int len)
@@ -85,11 +85,11 @@ namespace GBNewEnergy.Protocol.Extensions
         public static void WriteLittle(this byte[] write, DateTime date, int offset,int len)
         {
             write[offset] = (byte)(date.Year - DateLimitYear);
-            write[offset++] = (byte)date.Month;
-            write[offset++] = (byte)date.Day;
-            write[offset++] = (byte)date.Hour;
-            write[offset++] = (byte)date.Minute;
-            write[offset++] = (byte)date.Second;
+            write[++offset] = (byte)date.Month;
+            write[++offset] = (byte)date.Day;
+            write[++offset] = (byte)date.Hour;
+            write[++offset] = (byte)date.Minute;
+            write[++offset] = (byte)date.Second;
         }
 
         /// <summary>
