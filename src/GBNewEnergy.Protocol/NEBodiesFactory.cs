@@ -14,14 +14,14 @@ namespace GBNewEnergy.Protocol
         /// <param name="msgId"></param>
         /// <param name="buf"></param>
         /// <returns></returns>
-        public static NEBodies GetNEBodiesByMsgId(NEMsgId msgId,byte[] buf)
+        public static NEBodies GetNEBodiesByMsgId(NEMsgId msgId,byte[] buf, NEGlobalConfigs nEConfigs)
         {
             switch (msgId)
             {
                 case NEMsgId.login:
-                    return new NELoginUpStream(buf);
+                    return new NELoginUpStream(buf, nEConfigs);
                 case NEMsgId.loginout:
-                    return new NELogoutUpStream(buf);
+                    return new NELogoutUpStream(buf, nEConfigs);
                 default:
                     return null;
             }

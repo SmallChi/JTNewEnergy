@@ -12,15 +12,18 @@ namespace GBNewEnergy.Protocol.UpStream
     /// </summary>
     public class NELogoutUpStream : NEBodies
     {
-        public NELogoutUpStream(byte[] buffer) : base(buffer)
-        {}
+        public NELogoutUpStream(INEProperties nEProperties, NEGlobalConfigs nEConfigs) : base(nEProperties, nEConfigs)
+        {
+        }
 
-        public NELogoutUpStream(INEProperties nEProperties) : base(nEProperties){}
+        public NELogoutUpStream(byte[] buffer, NEGlobalConfigs nEConfigs) : base(buffer, nEConfigs)
+        {
+        }
 
         protected override void InitializeProperties(INEProperties nEProperties)
         {
             NELogoutProperty nELogoutProperty = (NELogoutProperty)nEProperties;
-            (ushort LoginNum, DateTime ExpirationTime) temp;
+            LoginInfo temp;
             if (LoginNumDict.TryGetValue(nELogoutProperty.VIN, out temp))
             {
                 LoginNum = temp.LoginNum;

@@ -12,16 +12,16 @@ namespace GBNewEnergy.Protocol
     /// </summary>
     public class NEPackage : NEBufferedEntityBase
     {
-        public NEPackage(byte[] header, byte[] body) : base(header, body)
+        public NEPackage(byte[] header, byte[] body, NEGlobalConfigs nEConfigs) : base(header, body, nEConfigs)
         {
         }
 
-        public NEPackage(byte[] buf) : base(buf)
+        public NEPackage(byte[] buf, NEGlobalConfigs nEConfigs) : base(buf, nEConfigs)
         {
         }
 
-        public NEPackage(INEProperties nEProperties)
-            : base(nEProperties)
+        public NEPackage(INEProperties nEProperties, NEGlobalConfigs nEConfigs)
+            : base(nEProperties, nEConfigs)
         { }
 
         /// <summary>
@@ -70,11 +70,6 @@ namespace GBNewEnergy.Protocol
         /// 数据体
         /// </summary>
         public NEBodies Bodies { get; protected set; }
-        /// <summary>
-        /// 数据单元加密
-        /// 当数据单元存在加密时，应先加密后校验，先校验后解密
-        /// </summary>
-        private INEEncrypt Encrypt;
 
         protected override void ToBuffer()
         {
@@ -88,9 +83,9 @@ namespace GBNewEnergy.Protocol
             Buffer.WriteLittle(VIN, 4);
             Buffer[21] = (byte)EncryptMethod;
             Buffer.WriteLittle(DataUnitLength, 22, 2);
-            if (Encrypt != null)
+            if (NEConfigs.Encrypt != null)
             {
-                Buffer.WriteLittle(Encrypt.Encrypt(Bodies.Buffer), 24, DataUnitLength);
+                Buffer.WriteLittle(NEConfigs.Encrypt.Encrypt(Bodies.Buffer), 24, DataUnitLength);
             }
             else
             {
@@ -109,8 +104,7 @@ namespace GBNewEnergy.Protocol
             MsgId = nEPackageProperty.MsgId;
             AskId = nEPackageProperty.AskId;
             Bodies = nEPackageProperty.Bodies;
-            EncryptMethod = nEPackageProperty.EncryptMethod;
-            Encrypt = NEEncryptFactory.GetNEEncrypt(EncryptMethod);
+            EncryptMethod = NEConfigs.EncryptMethod;
         }
 
         protected override void InitializePropertiesFromBuffer()
@@ -120,7 +114,6 @@ namespace GBNewEnergy.Protocol
             AskId = (NEAskId)Buffer[3];
             VIN = Buffer.ReadStringLittle(4, 17);
             EncryptMethod = (NEEncryptMethod)Buffer[21];
-            Encrypt = NEEncryptFactory.GetNEEncrypt(EncryptMethod);
             DataUnitLength = Buffer.ReadUShortH2LLittle(22, 2);
             // 进行BCC校验码
             // 校验位 = 报文长度 - 最后一位（校验位） - 偏移量（2）
@@ -134,13 +127,13 @@ namespace GBNewEnergy.Protocol
             BCCCode = bCCCode2;
             byte[] bodiesBytes = new byte[DataUnitLength + CheckBit];
             Array.Copy(Buffer, HeaderFixedByteLength, bodiesBytes, 0, bodiesBytes.Length);
-            if (Encrypt != null)
+            if (NEConfigs.Encrypt != null)
             {
-                Bodies = NEBodiesFactory.GetNEBodiesByMsgId(MsgId, Encrypt.Eecrypt(bodiesBytes));
+                Bodies = NEBodiesFactory.GetNEBodiesByMsgId(MsgId, NEConfigs.Encrypt.Eecrypt(bodiesBytes),NEConfigs);
             }
             else
             {
-                Bodies = NEBodiesFactory.GetNEBodiesByMsgId(MsgId, bodiesBytes);
+                Bodies = NEBodiesFactory.GetNEBodiesByMsgId(MsgId, bodiesBytes, NEConfigs);
             }
             Header = new byte[HeaderFixedByteLength];
             Array.Copy(Buffer, 0, Header, 0, HeaderFixedByteLength);

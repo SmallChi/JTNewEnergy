@@ -12,6 +12,10 @@ namespace GBNewEnergy.Protocol.Test
 {
     public class NEPackageTest
     {
+        private readonly NEGlobalConfigs NEGlobalConfigs = new NEGlobalConfigs()
+        {
+             NEEncryptKey="smallchi" 
+        };
         #region 车辆登入
         [Fact]
         public void NELoginUpStreamConstructor4_1()
@@ -27,16 +31,15 @@ namespace GBNewEnergy.Protocol.Test
                  BatteryNos=new List<string>() { "1" },
                  SIM= "64743066405"
             };
-            NELoginUpStream nELoginUpStream = new NELoginUpStream(nELoginProperty);
+            NELoginUpStream nELoginUpStream = new NELoginUpStream(nELoginProperty, NEGlobalConfigs);
             INEProperties nEPackageProperty = new NEPackageProperty
             {
                  Bodies= nELoginUpStream,
                  MsgId = Enums.NEMsgId.login,
                  AskId= Enums.NEAskId.cmd,
-                 EncryptMethod= NEEncryptMethod.None,
                  VIN= "LGHC4V1D3HE202652"
             };
-            NEPackage nEPackage = new NEPackage(nEPackageProperty);
+            NEPackage nEPackage = new NEPackage(nEPackageProperty, NEGlobalConfigs);
             string headerHex = nEPackage.Header.ToHexString();
             string bodiesHex = nEPackage.Bodies.Buffer.ToHexString();
             string packageHex = nEPackage.Buffer.ToHexString();
@@ -49,7 +52,7 @@ namespace GBNewEnergy.Protocol.Test
             // "23 23 01 FE 4C 47 48 43 34 56 31 44 33 48 45 32 30 32 36 35 32 01 00 1F 12 06 07 11 04 1B 00 01 36 34 37 34 33 30 36 36 34 30 35 00 00 00 00 00 00 00 00 00 01 01 31 D7"
             byte[] header = "23 23 01 FE 4C 47 48 43 34 56 31 44 33 48 45 32 30 32 36 35 32 01 00 1F".ToHexBytes();
             byte[] body = "12 06 07 11 04 1B 00 01 36 34 37 34 33 30 36 36 34 30 35 00 00 00 00 00 00 00 00 00 01 01 31 D7".ToHexBytes();
-            NEPackage nEPackage = new NEPackage(header, body);
+            NEPackage nEPackage = new NEPackage(header, body,NEGlobalConfigs);
             string headerHex = nEPackage.Header.ToHexString();
             string bodiesHex = nEPackage.Bodies.Buffer.ToHexString();
             string packageHex = nEPackage.Buffer.ToHexString();
@@ -60,7 +63,7 @@ namespace GBNewEnergy.Protocol.Test
          
             // "23 23 01 FE 4C 47 48 43 34 56 31 44 33 48 45 32 30 32 36 35 32 01 00 1F 12 06 07 11 04 1B 00 01 36 34 37 34 33 30 36 36 34 30 35 00 00 00 00 00 00 00 00 00 01 01 31 D7"
             byte[] packageBytes = "23 23 01 FE 4C 47 48 43 34 56 31 44 33 48 45 32 30 32 36 35 32 01 00 1F 12 06 07 11 04 1B 00 01 36 34 37 34 33 30 36 36 34 30 35 00 00 00 00 00 00 00 00 00 01 01 31 D7".ToHexBytes();
-            NEPackage nEPackage = new NEPackage(packageBytes);
+            NEPackage nEPackage = new NEPackage(packageBytes, NEGlobalConfigs);
             string headerHex = nEPackage.Header.ToHexString();
             string bodiesHex = nEPackage.Bodies.Buffer.ToHexString();
             string packageHex = nEPackage.Buffer.ToHexString();
@@ -78,16 +81,15 @@ namespace GBNewEnergy.Protocol.Test
                 {
                     VIN = "LGHC4V1D3HE202652"
                 };
-                NELogoutUpStream nELogoutUpStream1 = new NELogoutUpStream(nELogoutProperty);
+                NELogoutUpStream nELogoutUpStream1 = new NELogoutUpStream(nELogoutProperty, NEGlobalConfigs);
                 INEProperties nEPackageProperty1 = new NEPackageProperty
                 {
                     Bodies = nELogoutUpStream1,
                     MsgId = Enums.NEMsgId.login,
                     AskId = Enums.NEAskId.cmd,
-                    EncryptMethod = NEEncryptMethod.None,
                     VIN = "LGHC4V1D3HE202652"
                 };
-                NEPackage nEPackage = new NEPackage(nEPackageProperty1);
+                NEPackage nEPackage = new NEPackage(nEPackageProperty1, NEGlobalConfigs);
                 string headerHex = nEPackage.Header.ToHexString();
                 string bodiesHex = nEPackage.Bodies.Buffer.ToHexString();
                 string packageHex = nEPackage.Buffer.ToHexString();
@@ -109,30 +111,28 @@ namespace GBNewEnergy.Protocol.Test
                 BatteryNos = new List<string>() { "1" },
                 SIM = "64743066405"
             };
-            NELoginUpStream nELoginUpStream = new NELoginUpStream(nELoginProperty);
+            NELoginUpStream nELoginUpStream = new NELoginUpStream(nELoginProperty, NEGlobalConfigs);
             INEProperties nEPackageProperty = new NEPackageProperty
             {
                 Bodies = nELoginUpStream,
                 MsgId = Enums.NEMsgId.login,
                 AskId = Enums.NEAskId.cmd,
-                EncryptMethod = NEEncryptMethod.None,
                 VIN = "LGHC4V1D3HE202652"
             };
-            NEPackage nEPackageLogin = new NEPackage(nEPackageProperty);
+            NEPackage nEPackageLogin = new NEPackage(nEPackageProperty, NEGlobalConfigs);
             INEProperties nELogoutProperty = new NELogoutProperty()
             {
                 VIN = "LGHC4V1D3HE202652"
             };
-            NELogoutUpStream nELogoutUpStream1 = new NELogoutUpStream(nELogoutProperty);
+            NELogoutUpStream nELogoutUpStream1 = new NELogoutUpStream(nELogoutProperty, NEGlobalConfigs);
             INEProperties nEPackageProperty1 = new NEPackageProperty
             {
                 Bodies = nELogoutUpStream1,
                 MsgId = Enums.NEMsgId.loginout,
                 AskId = Enums.NEAskId.cmd,
-                EncryptMethod = NEEncryptMethod.None,
                 VIN = "LGHC4V1D3HE202652"
             };
-            NEPackage nEPackage = new NEPackage(nEPackageProperty1);
+            NEPackage nEPackage = new NEPackage(nEPackageProperty1, NEGlobalConfigs);
             // "23 23 05 FE 4C 47 48 43 34 56 31 44 33 48 45 32 30 32 36 35 32 01 00 08"
             // "12 06 08 12 06 3A 00 01"
             // "23 23 05 FE 4C 47 48 43 34 56 31 44 33 48 45 32 30 32 36 35 32 01 00 08 12 06 08 12 06 3A 00 01 E9"
@@ -145,7 +145,7 @@ namespace GBNewEnergy.Protocol.Test
         public void NELogoutUpStream2_2()
         {
             byte[] packageBytes = "23 23 05 FE 4C 47 48 43 34 56 31 44 33 48 45 32 30 32 36 35 32 01 00 08 12 06 08 12 06 3A 00 01 E9".ToHexBytes();
-            NEPackage nEPackage = new NEPackage(packageBytes);
+            NEPackage nEPackage = new NEPackage(packageBytes, NEGlobalConfigs);
             string headerHex = nEPackage.Header.ToHexString();
             string bodiesHex = nEPackage.Bodies.Buffer.ToHexString();
             string packageHex = nEPackage.Buffer.ToHexString();

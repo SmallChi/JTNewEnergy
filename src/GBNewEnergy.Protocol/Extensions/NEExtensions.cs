@@ -92,26 +92,6 @@ namespace GBNewEnergy.Protocol.Extensions
             write[offset++] = (byte)date.Second;
         }
 
-        public static void WriteLittle(this BinaryWriter write, string str,Encoding coding)
-        {
-            write.Write(coding.GetBytes(str));
-        }
-
-        public static void WriteLittle(this BinaryWriter write, string str)
-        {
-            write.Write(Encoding.ASCII.GetBytes(str));
-        }
-
-        public static void WriteLittle(this BinaryWriter write, int data, int len)
-        {
-            int n = 1;
-            for (int i = 0; i < len; i++)
-            {
-                write.Write((byte)(data >> 8 * (len - n)));
-                n++;
-            }
-        }
-
         /// <summary>
         /// 异或
         /// </summary>

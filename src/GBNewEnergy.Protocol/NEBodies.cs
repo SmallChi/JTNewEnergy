@@ -11,11 +11,11 @@ namespace GBNewEnergy.Protocol
         /// VIN - 登录流水号,过期时间（每天置1）
         /// 车载终端登入一次，登入流水号自动加1，从1开始循环累加，最大值为65531，循环周期为天
         /// </summary>
-        protected static readonly ConcurrentDictionary<string, (ushort LoginNum, DateTime ExpirationTime)> LoginNumDict;
+        protected static readonly ConcurrentDictionary<string, LoginInfo> LoginNumDict;
 
         static NEBodies()
         {
-            LoginNumDict = new ConcurrentDictionary<string, (ushort LoginNum, DateTime ExpirationTime)>();
+            LoginNumDict = new ConcurrentDictionary<string, LoginInfo>();
         }
 
         /// <summary>
@@ -30,8 +30,14 @@ namespace GBNewEnergy.Protocol
         /// </summary>
         public DateTime CurrentDateTime { get; protected set; } = DateTime.Now;
 
-        protected NEBodies(byte[] buffer):base(buffer){}
+        protected NEBodies(byte[] buffer, NEGlobalConfigs nEConfigs) : base(buffer, nEConfigs) { }
 
-        protected NEBodies(INEProperties  nEProperties) : base(nEProperties){}
+        protected NEBodies(INEProperties nEProperties, NEGlobalConfigs nEConfigs) : base(nEProperties, nEConfigs) { }
+
+        protected class LoginInfo
+        {
+           public ushort LoginNum { get; set; }
+           public DateTime ExpirationTime { get; set; }
+        }
     }
 }

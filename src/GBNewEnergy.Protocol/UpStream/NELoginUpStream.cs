@@ -12,12 +12,11 @@ namespace GBNewEnergy.Protocol.UpStream
     /// </summary>
     public class NELoginUpStream : NEBodies
     {
-        public NELoginUpStream(byte[] buffer) : base(buffer)
+        public NELoginUpStream(INEProperties nEProperties, NEGlobalConfigs nEConfigs) : base(nEProperties, nEConfigs)
         {
-            
         }
 
-        public NELoginUpStream(INEProperties nEProperties) : base(nEProperties)
+        public NELoginUpStream(byte[] buffer, NEGlobalConfigs nEConfigs) : base(buffer, nEConfigs)
         {
         }
 
@@ -62,26 +61,26 @@ namespace GBNewEnergy.Protocol.UpStream
             NELoginProperty nELoginProperty = (NELoginProperty)nEProperties;
             if (LoginNumDict.ContainsKey(nELoginProperty.VIN))
             {
-                (ushort LoginNum, DateTime ExpirationTime) temp;
+                LoginInfo temp;
                 if (LoginNumDict.TryGetValue(nELoginProperty.VIN, out temp))
                 {
                     // 不等于当天
                     if (temp.ExpirationTime != DateTime.Now.Date)
                     {
                         LoginNum = 1;
-                        LoginNumDict.TryUpdate(nELoginProperty.VIN, (LoginNum, DateTime.Now.Date), temp);
+                        LoginNumDict.TryUpdate(nELoginProperty.VIN, new LoginInfo { LoginNum = LoginNum, ExpirationTime=DateTime.Now.Date }, temp);
                     }
                     else
                     {// 自增1 更新字典
                         LoginNum = temp.LoginNum++;
-                        LoginNumDict.TryUpdate(nELoginProperty.VIN, (LoginNum, DateTime.Now.Date), temp);
+                        LoginNumDict.TryUpdate(nELoginProperty.VIN, new LoginInfo { LoginNum = LoginNum, ExpirationTime = DateTime.Now.Date }, temp);
                     }
                 }
             }
             else
             {
                 LoginNum = 1;
-                LoginNumDict.TryAdd(nELoginProperty.VIN, (LoginNum, DateTime.Now.Date));
+                LoginNumDict.TryAdd(nELoginProperty.VIN, new LoginInfo { LoginNum = LoginNum, ExpirationTime = DateTime.Now.Date });
             }
             SIM = nELoginProperty.SIM;
             BatteryCount = nELoginProperty.BatteryCount;
