@@ -6,7 +6,7 @@ using System.Text;
 
 namespace GBNewEnergy.Protocol.NEEncrypts
 {
-    public class NE_AES128EncryptImpl_NetCore2 : INEEncrypt
+    public class NEAES128EncryptImpl_NetCore2 : INEEncrypt
     {
         private readonly NEGlobalConfigs _nEConfigs;
 
@@ -15,12 +15,12 @@ namespace GBNewEnergy.Protocol.NEEncrypts
         /// </summary>
         private readonly static byte[] saltBytes = new byte[9] { 13, 34, 27, 67, 189, 255, 104, 219, 122 };
 
-        public NE_AES128EncryptImpl_NetCore2(NEGlobalConfigs nEConfigs)
+        public NEAES128EncryptImpl_NetCore2(NEGlobalConfigs nEConfigs)
         {
             _nEConfigs = nEConfigs;
         }
 
-        public byte[] Eecrypt(byte[] buffer)
+        public byte[] Decrypt(byte[] buffer)
         {
             var iv = new byte[16];
             var cipher = new byte[16];

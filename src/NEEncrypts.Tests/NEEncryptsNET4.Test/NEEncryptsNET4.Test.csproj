@@ -43,5 +43,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\GBNewEnergy.Protocol\GBNewEnergy.Protocol.csproj">
+      <Project>{1934f3a6-1396-46c2-bfd6-1e2dc1a26e3a}</Project>
+      <Name>GBNewEnergy.Protocol</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

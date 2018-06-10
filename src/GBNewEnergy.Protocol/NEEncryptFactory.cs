@@ -20,10 +20,10 @@ namespace GBNewEnergy.Protocol
 #if NETCOREAPP2_1
                 return new NE_AES128EncryptImpl_NetCore2(nEConfigs);
 #else
-                return new NE_AES128EncryptImpl(nEConfigs);
+                return new NEAES128EncryptImpl(nEConfigs);
 #endif
                 case NEEncryptMethod.RSA:
-                    return new NE_RSAEncryptImpl(nEConfigs);
+                    return new NERSAEncryptImpl(nEConfigs);
                 default:
                     return null;
             }

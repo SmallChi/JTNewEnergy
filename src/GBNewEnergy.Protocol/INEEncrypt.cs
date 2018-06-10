@@ -7,6 +7,6 @@ namespace GBNewEnergy.Protocol
     public interface INEEncrypt
     {
         byte[] Encrypt(byte[] buffer);
-        byte[] Eecrypt(byte[] buffer);
+        byte[] Decrypt(byte[] buffer);
     }
 }

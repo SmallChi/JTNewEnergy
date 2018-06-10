@@ -129,7 +129,7 @@ namespace GBNewEnergy.Protocol
             Array.Copy(Buffer, HeaderFixedByteLength, bodiesBytes, 0, bodiesBytes.Length);
             if (NEConfigs.Encrypt != null)
             {
-                Bodies = NEBodiesFactory.GetNEBodiesByMsgId(MsgId, NEConfigs.Encrypt.Eecrypt(bodiesBytes),NEConfigs);
+                Bodies = NEBodiesFactory.GetNEBodiesByMsgId(MsgId, NEConfigs.Encrypt.Decrypt(bodiesBytes),NEConfigs);
             }
             else
             {

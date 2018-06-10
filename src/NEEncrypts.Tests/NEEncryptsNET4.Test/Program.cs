@@ -1,9 +1,11 @@
-﻿using System;
+﻿using GBNewEnergy.Protocol.NEEncrypts;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using GBNewEnergy.Protocol.Extensions;
 
 namespace NEEncryptsNET4.Test
 {
@@ -11,39 +13,18 @@ namespace NEEncryptsNET4.Test
     {
         static void Main(string[] args)
         {
-        }
-
-        public static byte[] AESEncryptBytes(byte[] bytesToBeEncrypted, byte[] passwordBytes)
-        {
-            byte[] encryptedBytes = null;
-
-            var saltBytes = new byte[9] { 13, 34, 27, 67, 189, 255, 104, 219, 122 };
-
-            using (var ms = new MemoryStream())
-            {
-                using (var AES = new RijndaelManaged())
+            NEAES128EncryptImpl nE_AES128EncryptImpl = new NEAES128EncryptImpl(
+                new GBNewEnergy.Protocol.NEGlobalConfigs()
                 {
-                    AES.KeySize = 256;
-                    AES.BlockSize = 128;
-      
-                    var key = new Rfc2898DeriveBytes(passwordBytes, saltBytes, 1000);
-                    AES.Key = key.GetBytes(32);
-                    AES.IV = key.GetBytes(16);
-
-                    AES.Mode = CipherMode.CBC;
-
-                    using (var cs = new CryptoStream(ms, AES.CreateEncryptor(),
-                        CryptoStreamMode.Write))
-                    {
-                        cs.Write(bytesToBeEncrypted, 0, bytesToBeEncrypted.Length);
-                        cs.Close();
-                    }
-
-                    encryptedBytes = ms.ToArray();
-                }
-            }
-
-            return encryptedBytes;
+                     NEEncryptKey="smallchi"
+                });
+            string str = "aaasssddd123";
+            var bytes = Encoding.UTF8.GetBytes(str);
+            var encrypt=nE_AES128EncryptImpl.Encrypt(bytes);
+            Console.WriteLine("原数据:"+ str);
+            Console.WriteLine("加密后:"+ encrypt.ToHexString());
+            Console.WriteLine("解密后:" + Encoding.UTF8.GetString(nE_AES128EncryptImpl.Decrypt(encrypt)));
+            Console.ReadKey();
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace GBNewEnergy.Protocol.NEEncrypts
 {
-    public class NE_AES128EncryptImpl : INEEncrypt
+    public class NEAES128EncryptImpl : INEEncrypt
     {
         private readonly NEGlobalConfigs _nEConfigs;
 
@@ -15,14 +15,13 @@ namespace GBNewEnergy.Protocol.NEEncrypts
         /// </summary>
         private readonly static byte[] saltBytes = new byte[9] { 13, 34, 27, 67, 189, 255, 104, 219, 122 };
 
-        public NE_AES128EncryptImpl(NEGlobalConfigs nEConfigs)
+        public NEAES128EncryptImpl(NEGlobalConfigs nEConfigs)
         {
             _nEConfigs = nEConfigs;
         }
 
         public byte[] Encrypt(byte[] buffer)
-        {
-            byte[] decryptedBytes = null;      
+        {  
             using (var ms = new MemoryStream())
             {
                 using (var AES = new RijndaelManaged())
@@ -33,24 +32,21 @@ namespace GBNewEnergy.Protocol.NEEncrypts
                     AES.Key = key.GetBytes(32);
                     AES.IV = key.GetBytes(16);
                     AES.Mode = CipherMode.CBC;
-                    using (var cs = new CryptoStream(ms, AES.CreateDecryptor(), CryptoStreamMode.Write))
+                    using (var cs = new CryptoStream(ms, AES.CreateEncryptor(), CryptoStreamMode.Write))
                     {
                         cs.Write(buffer, 0, buffer.Length);
                         cs.Close();
                     }
-                    decryptedBytes = ms.ToArray();
+                    return ms.ToArray();
                 }
             }
-            return decryptedBytes;
         }
 
-        public byte[] Eecrypt(byte[] buffer)
+        public byte[] Decrypt(byte[] buffer)
         {
-            byte[] decryptedBytes = null;
             using (var ms = new MemoryStream())
+            using (var AES = new RijndaelManaged())
             {
-                using (var AES = new RijndaelManaged())
-                {
                     AES.KeySize = 256;
                     AES.BlockSize = 128;
                     var key = new Rfc2898DeriveBytes(_nEConfigs.NEEncryptKeyBytes, saltBytes, 1000);
@@ -62,10 +58,8 @@ namespace GBNewEnergy.Protocol.NEEncrypts
                         cs.Write(buffer, 0, buffer.Length);
                         cs.Close();
                     }
-                    decryptedBytes = ms.ToArray();
-                }
-            }
-            return decryptedBytes;
+                    return ms.ToArray();
+             }
         }
     }
 }

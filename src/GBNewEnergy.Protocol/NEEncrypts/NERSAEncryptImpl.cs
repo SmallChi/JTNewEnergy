@@ -5,16 +5,16 @@ using System.Text;
 namespace GBNewEnergy.Protocol.NEEncrypts
 {
 #warning 待加解密
-    public class NE_RSAEncryptImpl : INEEncrypt
+    public class NERSAEncryptImpl : INEEncrypt
     {
         private readonly NEGlobalConfigs _nEConfigs;
 
-        public NE_RSAEncryptImpl(NEGlobalConfigs nEConfigs)
+        public NERSAEncryptImpl(NEGlobalConfigs nEConfigs)
         {
             _nEConfigs = nEConfigs;
         }
 
-        public byte[] Eecrypt(byte[] buffer)
+        public byte[] Decrypt(byte[] buffer)
         {
             throw new NotImplementedException();
         }
