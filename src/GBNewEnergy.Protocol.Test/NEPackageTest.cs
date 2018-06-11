@@ -16,6 +16,7 @@ namespace GBNewEnergy.Protocol.Test
         {
 
         };
+
         #region 车辆登入
         [Fact]
         public void NELoginUpStreamConstructor4_1()
@@ -70,7 +71,7 @@ namespace GBNewEnergy.Protocol.Test
         }
         #endregion
 
-        #region 车辆登出(依赖车辆登录的流水号所有必须先进行登录产生流水号)
+        #region 车辆登出(依赖车辆登入的流水号所有必须先进行登入产生流水号)
 
         [Fact]
         public void NELogoutUpStream1_1()
@@ -155,5 +156,74 @@ namespace GBNewEnergy.Protocol.Test
 
         #endregion
 
+        #region 平台登入
+
+        [Fact]
+        public void NEPlatformLogin1_1()
+        {
+            NEPlatformLoginProperty nEPlatformLoginProperty = new NEPlatformLoginProperty
+            {
+                EncryptMethod = NEEncryptMethod.None,
+                Password = "123456",
+                UserName = "smallchi",
+            };
+            NEPlatformLoginUpStream nEPlatformLoginUpStream = new NEPlatformLoginUpStream(nEPlatformLoginProperty, NEGlobalConfigs);
+
+            INEProperties nEPackageProperty = new NEPackageProperty
+            {
+                Bodies = nEPlatformLoginUpStream,
+                MsgId = Enums.NEMsgId.platformlogin,
+                AskId = Enums.NEAskId.cmd,
+                VIN = "LGHC4V1D3HE202652"
+            };
+            NEPackage nEPackage = new NEPackage(nEPackageProperty, NEGlobalConfigs);
+            string headerHex = nEPackage.Header.ToHexString();
+            string bodiesHex = nEPackage.Bodies.Buffer.ToHexString();
+            string packageHex = nEPackage.Buffer.ToHexString();
+        }
+
+        #endregion
+
+        #region 平台登出(依赖平台登出的流水号所有必须先进行登入产生流水号)
+
+        [Fact]
+        public void NEPlatformLogin2_1()
+        {
+            NEPlatformLoginProperty nEPlatformLoginProperty = new NEPlatformLoginProperty
+            {
+                EncryptMethod = NEEncryptMethod.None,
+                Password = "123456",
+                UserName = "smallchi",
+            };
+            NEPlatformLoginUpStream nEPlatformLoginUpStream = new NEPlatformLoginUpStream(nEPlatformLoginProperty, NEGlobalConfigs);
+            INEProperties nEPackageProperty = new NEPackageProperty
+            {
+                Bodies = nEPlatformLoginUpStream,
+                MsgId = Enums.NEMsgId.platformlogin,
+                AskId = Enums.NEAskId.cmd,
+                VIN = "LGHC4V1D3HE202652"
+            };
+            NEPackage nEPackage = new NEPackage(nEPackageProperty, NEGlobalConfigs);
+
+            NEPlatformLogoutProperty nEPlatformLogoutProperty = new NEPlatformLogoutProperty
+            {
+                UserName = "smallchi",
+            };
+            NEPlatformLoginUpStream nEPlatformLogoutUpStream = new NEPlatformLoginUpStream(nEPlatformLoginProperty, NEGlobalConfigs);
+            INEProperties logoutNEPackageProperty = new NEPackageProperty
+            {
+                Bodies = nEPlatformLogoutUpStream,
+                MsgId = Enums.NEMsgId.platformlogout,
+                AskId = Enums.NEAskId.cmd,
+                VIN = "LGHC4V1D3HE202652"
+            };
+            NEPackage loginNEPackage = new NEPackage(logoutNEPackageProperty, NEGlobalConfigs);
+            string headerHex = loginNEPackage.Header.ToHexString();
+            string bodiesHex = loginNEPackage.Bodies.Buffer.ToHexString();
+            string packageHex = loginNEPackage.Buffer.ToHexString();
+        }
+
+
+        #endregion
     }
 }

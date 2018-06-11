@@ -18,17 +18,25 @@ namespace GBNewEnergy.Protocol.Enums
         /// </summary>
         uploadim = 0x02,
         /// <summary>
-        /// 心跳
-        /// </summary>
-        heartbeat = 0x03,
-        /// <summary>
         /// 补传信息上传
         /// </summary>
-        uploadsup = 0x04,
+        uploadsup = 0x03,
         /// <summary>
         /// 车辆登出
         /// </summary>
-        loginout = 0x05,
+        loginout = 0x04,
+        /// <summary>
+        /// 平台登入
+        /// </summary>
+        platformlogin = 0x05,
+        /// <summary>
+        /// 平台登出
+        /// </summary>
+        platformlogout = 0x06,
+        /// <summary>
+        /// 心跳
+        /// </summary>
+        heartbeat = 0x07,
         /// <summary>
         /// 终端校时
         /// </summary>

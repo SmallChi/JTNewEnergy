@@ -8,14 +8,21 @@ namespace GBNewEnergy.Protocol
     public abstract class NEBodies : NEBufferedEntityBase
     {
         /// <summary>
-        /// VIN - 登录流水号,过期时间（每天置1）
+        /// VIN - 登入流水号,过期时间（每天置1）
         /// 车载终端登入一次，登入流水号自动加1，从1开始循环累加，最大值为65531，循环周期为天
         /// </summary>
         protected static readonly ConcurrentDictionary<string, LoginInfo> LoginNumDict;
 
+        /// <summary>
+        /// 平台登入 登录流水号,过期时间（每天置1）
+        /// 下级平台登入一次，登入流水号自动加1，从1开始循环累加，最大值为65531，循环周期为天
+        /// </summary>
+        protected static readonly ConcurrentDictionary<string, PlatformLoginInfo> PlatformLoginNumDict;
+
         static NEBodies()
         {
             LoginNumDict = new ConcurrentDictionary<string, LoginInfo>();
+            PlatformLoginNumDict = new ConcurrentDictionary<string, PlatformLoginInfo>();
         }
 
         /// <summary>
@@ -38,6 +45,12 @@ namespace GBNewEnergy.Protocol
         {
            public ushort LoginNum { get; set; }
            public DateTime ExpirationTime { get; set; }
+        }
+
+        protected class PlatformLoginInfo
+        {
+            public ushort LoginNum { get; set; }
+            public DateTime ExpirationTime { get; set; }
         }
     }
 }

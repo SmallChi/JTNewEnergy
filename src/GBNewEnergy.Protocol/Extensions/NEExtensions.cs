@@ -82,6 +82,11 @@ namespace GBNewEnergy.Protocol.Extensions
             Array.Copy(bytes, 0, write, offset, len);
         }
 
+        public static void WriteLittle(this byte[] write, byte bit, int offset)
+        {
+            write[offset] = bit;
+        }
+
         public static void WriteLittle(this byte[] write, DateTime date, int offset,int len)
         {
             write[offset++] = (byte)(date.Year - DateLimitYear);
