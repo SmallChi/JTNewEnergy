@@ -14,7 +14,7 @@ namespace GBNewEnergy.Protocol.Test
     {
         private readonly NEGlobalConfigs NEGlobalConfigs = new NEGlobalConfigs()
         {
-             NEEncryptKey="smallchi" 
+
         };
         #region 车辆登入
         [Fact]

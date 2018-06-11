@@ -1,6 +1,4 @@
 ﻿using GBNewEnergy.Protocol.Enums;
-using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace GBNewEnergy.Protocol
@@ -8,9 +6,9 @@ namespace GBNewEnergy.Protocol
     public  class NEGlobalConfigs
     {
         /// <summary>
-        /// 密钥
+        /// 加密编码
         /// </summary>
-        public string NEEncryptKey { get; set; }
+        public Encoding NEEncryptEncoding { get; set; } = Encoding.UTF8;
         /// <summary>
         /// 数据单元加密方式
         /// 0x01：数据不加密；0x02：数据经过 RSA 算法加密；0x03:数据经过 AES128 位算法加密；“0xFE”表示异常，“0xFF”表示无效

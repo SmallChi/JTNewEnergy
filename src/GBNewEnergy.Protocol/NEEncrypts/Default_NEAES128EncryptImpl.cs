@@ -1,30 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace GBNewEnergy.Protocol.NEEncrypts
 {
-    public class NEAES128EncryptImpl : INEEncrypt
+    public class Default_NEAES128EncryptImpl : NEAESBase
     {
-        private readonly NEGlobalConfigs _nEConfigs;
+        public override string PrivateKey { get; }
 
-        /// <summary>
-        /// 盐字节必须为至少8个字节
-        /// </summary>
-        private readonly static byte[] saltBytes = new byte[9] { 13, 34, 27, 67, 189, 255, 104, 219, 122 };
+        public override byte[] SaltBytes { get; }
 
-        public NEAES128EncryptImpl(NEGlobalConfigs nEConfigs)
+        public Default_NEAES128EncryptImpl(string privateKey)
         {
-            _nEConfigs = nEConfigs;
+            PrivateKey = privateKey;
+            SaltBytes = new byte[9] { 13, 34, 27, 67, 189, 255, 104, 219, 122 };
         }
 
-        public byte[] Encrypt(byte[] buffer)
+        public Default_NEAES128EncryptImpl(string privateKey, byte[] saltBytes)
+        {
+            PrivateKey = privateKey;
+            SaltBytes = saltBytes;
+        }
+
+        public override byte[] Encrypt(byte[] buffer)
         {
             using (Aes encryptor = Aes.Create())
             {
-                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(_nEConfigs.NEEncryptKey, saltBytes);
+                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(PrivateKey, SaltBytes);
                 encryptor.Key = pdb.GetBytes(32);
                 encryptor.IV = pdb.GetBytes(16);
                 using (MemoryStream ms = new MemoryStream())
@@ -37,11 +38,11 @@ namespace GBNewEnergy.Protocol.NEEncrypts
             }
         }
 
-        public byte[] Decrypt(byte[] buffer)
+        public override byte[] Decrypt(byte[] buffer)
         {
             using (Aes encryptor = Aes.Create())
             {
-                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(_nEConfigs.NEEncryptKey, saltBytes);
+                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(PrivateKey, SaltBytes);
                 encryptor.Key = pdb.GetBytes(32);
                 encryptor.IV = pdb.GetBytes(16);
                 using (MemoryStream ms = new MemoryStream())
