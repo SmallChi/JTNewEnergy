@@ -21,22 +21,17 @@ namespace GBNewEnergy.Protocol.NEEncrypts
         }
 
         public byte[] Encrypt(byte[] buffer)
-        {  
-            using (var ms = new MemoryStream())
+        {
+            using (Aes encryptor = Aes.Create())
             {
-                using (var AES = new RijndaelManaged())
-                {
-                    AES.KeySize = 256;
-                    AES.BlockSize = 128;
-                    var key = new Rfc2898DeriveBytes(_nEConfigs.NEEncryptKeyBytes, saltBytes, 1000);
-                    AES.Key = key.GetBytes(32);
-                    AES.IV = key.GetBytes(16);
-                    AES.Mode = CipherMode.CBC;
-                    using (var cs = new CryptoStream(ms, AES.CreateEncryptor(), CryptoStreamMode.Write))
-                    {
-                        cs.Write(buffer, 0, buffer.Length);
-                        cs.Close();
-                    }
+                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(_nEConfigs.NEEncryptKey, saltBytes);
+                encryptor.Key = pdb.GetBytes(32);
+                encryptor.IV = pdb.GetBytes(16);
+                using (MemoryStream ms = new MemoryStream())
+                using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(),CryptoStreamMode.Write))
+                { 
+                    cs.Write(buffer, 0, buffer.Length);
+                    cs.Close();
                     return ms.ToArray();
                 }
             }
@@ -44,22 +39,19 @@ namespace GBNewEnergy.Protocol.NEEncrypts
 
         public byte[] Decrypt(byte[] buffer)
         {
-            using (var ms = new MemoryStream())
-            using (var AES = new RijndaelManaged())
+            using (Aes encryptor = Aes.Create())
             {
-                    AES.KeySize = 256;
-                    AES.BlockSize = 128;
-                    var key = new Rfc2898DeriveBytes(_nEConfigs.NEEncryptKeyBytes, saltBytes, 1000);
-                    AES.Key = key.GetBytes(32);
-                    AES.IV = key.GetBytes(16);
-                    AES.Mode = CipherMode.CBC;
-                    using (var cs = new CryptoStream(ms, AES.CreateDecryptor(), CryptoStreamMode.Write))
-                    {
-                        cs.Write(buffer, 0, buffer.Length);
-                        cs.Close();
-                    }
+                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(_nEConfigs.NEEncryptKey, saltBytes);
+                encryptor.Key = pdb.GetBytes(32);
+                encryptor.IV = pdb.GetBytes(16);
+                using (MemoryStream ms = new MemoryStream())
+                using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateDecryptor(),CryptoStreamMode.Write))
+                { 
+                    cs.Write(buffer, 0, buffer.Length);
+                    cs.Close(); 
                     return ms.ToArray();
-             }
+                }
+            }
         }
     }
 }

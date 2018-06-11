@@ -12,10 +12,6 @@ namespace GBNewEnergy.Protocol
         /// </summary>
         public string NEEncryptKey { get; set; }
         /// <summary>
-        /// 密钥
-        /// </summary>
-        public byte[] NEEncryptKeyBytes => Encoding.UTF8.GetBytes(NEEncryptKey);
-        /// <summary>
         /// 数据单元加密方式
         /// 0x01：数据不加密；0x02：数据经过 RSA 算法加密；0x03:数据经过 AES128 位算法加密；“0xFE”表示异常，“0xFF”表示无效
         /// </summary>

@@ -17,11 +17,7 @@ namespace GBNewEnergy.Protocol
                 case NEEncryptMethod.Exception:
                     return null;
                 case NEEncryptMethod.AES128:
-#if NETCOREAPP2_1
-                return new NE_AES128EncryptImpl_NetCore2(nEConfigs);
-#else
-                return new NEAES128EncryptImpl(nEConfigs);
-#endif
+                    return new NEAES128EncryptImpl(nEConfigs);
                 case NEEncryptMethod.RSA:
                     return new NERSAEncryptImpl(nEConfigs);
                 default:

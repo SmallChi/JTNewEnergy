@@ -9,6 +9,8 @@
     <Compile Remove="IBuffer.cs" />
     <Compile Remove="IBuffered.cs" />
     <Compile Remove="NEDownStreamBase.cs" />
+    <Compile Remove="NEEncryptFactory.cs" />
+    <Compile Remove="NEEncrypts\NEAES128EncryptImpl_NetCore2.cs" />
     <Compile Remove="NEHeader.cs" />
     <Compile Remove="NEUpStreamBase.cs" />
   </ItemGroup>
