@@ -1,4 +1,5 @@
-﻿using GBNewEnergy.Protocol.Enums;
+﻿using GBNewEnergy.Protocol.DownStream;
+using GBNewEnergy.Protocol.Enums;
 using GBNewEnergy.Protocol.UpStream;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,12 @@ namespace GBNewEnergy.Protocol
                     return new NEPlatformLoginUpStream(buf, nEConfigs);
                 case NEMsgId.platformlogout:
                     return new NEPlatformLogoutUpStream(buf, nEConfigs);
+                case NEMsgId.control:
+                case NEMsgId.settings:
+                case NEMsgId.heartbeat:
+                case NEMsgId.checktime:
+                    return new CommonUpStream(buf, nEConfigs);
+
                 default:
                     return null;
             }

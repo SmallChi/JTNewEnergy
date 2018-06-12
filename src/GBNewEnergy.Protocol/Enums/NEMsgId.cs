@@ -42,15 +42,15 @@ namespace GBNewEnergy.Protocol.Enums
         /// </summary>
         checktime = 0x08,
         /// <summary>
-        /// 查询应答
+        /// 查询命令
         /// </summary>
         query = 0x80,
         /// <summary>
-        /// 设置应答
+        /// 设置命令
         /// </summary>
         settings = 0x81,
         /// <summary>
-        /// 控制应答
+        /// 控制命令
         /// </summary>
         control = 0x82
     }
