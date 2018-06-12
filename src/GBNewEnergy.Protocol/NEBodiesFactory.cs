@@ -22,6 +22,10 @@ namespace GBNewEnergy.Protocol
                     return new NELoginUpStream(buf, nEConfigs);
                 case NEMsgId.loginout:
                     return new NELogoutUpStream(buf, nEConfigs);
+                case NEMsgId.platformlogin:
+                    return new NEPlatformLoginUpStream(buf, nEConfigs);
+                case NEMsgId.platformlogout:
+                    return new NEPlatformLogoutUpStream(buf, nEConfigs);
                 default:
                     return null;
             }

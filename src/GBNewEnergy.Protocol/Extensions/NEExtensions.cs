@@ -15,12 +15,12 @@ namespace GBNewEnergy.Protocol.Extensions
         public static DateTime ReadDateTimeLittle(this byte[] read,int offset, int len)
         {
             return new DateTime(
-                read[offset] + DateLimitYear,
-                read[++offset],
-                read[++offset],
-                read[++offset],
-                read[++offset],
-                read[++offset]);
+                read[offset++] + DateLimitYear,
+                read[offset++],
+                read[offset++],
+                read[offset++],
+                read[offset++],
+                read[offset++]);
         }
 
         public static ushort ReadUShortH2LLittle(this byte[] read, int offset, int len)

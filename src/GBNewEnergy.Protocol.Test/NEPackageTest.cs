@@ -161,6 +161,7 @@ namespace GBNewEnergy.Protocol.Test
         [Fact]
         public void NEPlatformLogin1_1()
         {
+            // "23 23 05 FE 4C 47 48 43 34 56 31 44 33 48 45 32 30 32 36 35 32 01 00 29 12 06 0C 09 2F 12 00 01 00 00 00 00 73 6D 61 6C 6C 63 68 69 31 32 33 34 35 36 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 CD"
             NEPlatformLoginProperty nEPlatformLoginProperty = new NEPlatformLoginProperty
             {
                 EncryptMethod = NEEncryptMethod.None,
@@ -168,7 +169,6 @@ namespace GBNewEnergy.Protocol.Test
                 UserName = "smallchi",
             };
             NEPlatformLoginUpStream nEPlatformLoginUpStream = new NEPlatformLoginUpStream(nEPlatformLoginProperty, NEGlobalConfigs);
-
             INEProperties nEPackageProperty = new NEPackageProperty
             {
                 Bodies = nEPlatformLoginUpStream,
@@ -182,6 +182,16 @@ namespace GBNewEnergy.Protocol.Test
             string packageHex = nEPackage.Buffer.ToHexString();
         }
 
+        [Fact]
+        public void NEPlatformLogin1_2()
+        {
+            byte[] packageBytes = "23 23 05 FE 4C 47 48 43 34 56 31 44 33 48 45 32 30 32 36 35 32 01 00 29 12 06 0C 09 2F 12 00 01 00 00 00 00 73 6D 61 6C 6C 63 68 69 31 32 33 34 35 36 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 CD".ToHexBytes();
+            NEPackage nEPackage = new NEPackage(packageBytes, NEGlobalConfigs);
+            string headerHex = nEPackage.Header.ToHexString();
+            string bodiesHex = nEPackage.Bodies.Buffer.ToHexString();
+            string packageHex = nEPackage.Buffer.ToHexString();
+        }
+
         #endregion
 
         #region 平台登出(依赖平台登出的流水号所有必须先进行登入产生流水号)
@@ -189,6 +199,7 @@ namespace GBNewEnergy.Protocol.Test
         [Fact]
         public void NEPlatformLogin2_1()
         {
+            //"23 23 06 FE 4C 47 48 43 34 56 31 44 33 48 45 32 30 32 36 35 32 01 00 29 12 06 0C 09 3A 17 00 01 00 00 00 00 73 6D 61 6C 6C 63 68 69 31 32 33 34 35 36 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 DE"
             NEPlatformLoginProperty nEPlatformLoginProperty = new NEPlatformLoginProperty
             {
                 EncryptMethod = NEEncryptMethod.None,
@@ -223,6 +234,15 @@ namespace GBNewEnergy.Protocol.Test
             string packageHex = loginNEPackage.Buffer.ToHexString();
         }
 
+        [Fact]
+        public void NEPlatformLogin2_2()
+        {
+            byte[] packageBytes = "23 23 06 FE 4C 47 48 43 34 56 31 44 33 48 45 32 30 32 36 35 32 01 00 29 12 06 0C 09 3A 17 00 01 00 00 00 00 73 6D 61 6C 6C 63 68 69 31 32 33 34 35 36 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 DE".ToHexBytes();
+            NEPackage loginNEPackage = new NEPackage(packageBytes, NEGlobalConfigs);
+            string headerHex = loginNEPackage.Header.ToHexString();
+            string bodiesHex = loginNEPackage.Bodies.Buffer.ToHexString();
+            string packageHex = loginNEPackage.Buffer.ToHexString();
+        }
 
         #endregion
     }

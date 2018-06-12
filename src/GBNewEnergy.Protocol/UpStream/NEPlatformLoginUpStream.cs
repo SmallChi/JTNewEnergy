@@ -70,9 +70,9 @@ namespace GBNewEnergy.Protocol.UpStream
         {
             CurrentDateTime = Buffer.ReadDateTimeLittle(0, 6);
             LoginNum = Buffer.ReadUShortH2LLittle(6, 2);
-            UserName = Buffer.ReadStringLittle(6, 12);
-            Password = Buffer.ReadStringLittle(12, 20);
-            EncryptMethod= (NEEncryptMethod)Buffer[21];
+            UserName = Buffer.ReadStringLittle(8, 12);
+            Password = Buffer.ReadStringLittle(20, 20);
+            EncryptMethod= (NEEncryptMethod)Buffer[40];
         }
 
         protected override void ToBuffer()
@@ -82,7 +82,7 @@ namespace GBNewEnergy.Protocol.UpStream
             Buffer.WriteLittle(LoginNum, 6, 2);
             Buffer.WriteLittle(UserName, 12);
             Buffer.WriteLittle(Password, 20);
-            Buffer.WriteLittle((byte)EncryptMethod, 21);
+            Buffer.WriteLittle((byte)EncryptMethod, 40);
         }
     }
 }
