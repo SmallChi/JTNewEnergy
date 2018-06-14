@@ -28,6 +28,7 @@ namespace GBNewEnergy.Protocol
                 case NEMsgId.platformlogout:
                     return new NEPlatformLogoutUpStream(buf, nEConfigs);
                 case NEMsgId.control:
+                    return new NEControlDownStream(buf, nEConfigs);
                 case NEMsgId.settings:
                 case NEMsgId.heartbeat:
                 case NEMsgId.checktime:

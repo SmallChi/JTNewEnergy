@@ -16,9 +16,9 @@ namespace GBNewEnergy.Protocol.Enums
         /// </summary>
         unused= 0x00,
         /// <summary>
-        /// 远程升级
+        /// 远程升级  见表B.16
         /// </summary>
-        remoteupdate=0x01,
+        remoteupdate = 0x01,
         /// <summary>
         /// 车载终端关机
         /// </summary>
