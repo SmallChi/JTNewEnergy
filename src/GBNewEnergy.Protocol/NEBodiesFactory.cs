@@ -21,6 +21,8 @@ namespace GBNewEnergy.Protocol
             {
                 case NEMsgId.login:
                     return new NELoginUpStream(buf, nEConfigs);
+                case NEMsgId.uploadim:
+                    return new NERealUploadUpStream(buf, nEConfigs);
                 case NEMsgId.loginout:
                     return new NELogoutUpStream(buf, nEConfigs);
                 case NEMsgId.platformlogin:
@@ -33,7 +35,6 @@ namespace GBNewEnergy.Protocol
                 case NEMsgId.heartbeat:
                 case NEMsgId.checktime:
                     return new CommonUpStream(buf, nEConfigs);
-
                 default:
                     return null;
             }
