@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GBNewEnergy.Protocol.NEProperties.NEUploadProperties;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -17,9 +18,11 @@ namespace GBNewEnergy.Protocol.UpStream
         {
         }
 
+        public NEUploadProperty NEUploadProperty { get;private set; }
+
         protected override void InitializeProperties(INEProperties nEProperties)
         {
-            throw new NotImplementedException();
+            NEUploadProperty = (NEUploadProperty)nEProperties;
         }
 
         protected override void InitializePropertiesFromBuffer()

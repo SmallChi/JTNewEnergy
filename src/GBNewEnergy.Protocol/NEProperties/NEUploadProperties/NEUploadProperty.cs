@@ -13,11 +13,11 @@ namespace GBNewEnergy.Protocol.NEProperties.NEUploadProperties
     {
         public string VIN { get ; set; }
 
-        public NEUploadProperty(params NEUploadPropertyBase[] nEUploadPropertyBases)
+        public NEUploadProperty(params NEUploadPropertyBase[] NEUploadPropertyBase)
         {
-            if (nEUploadPropertyBases != null)
+            if (NEUploadPropertyBase != null)
             {
-                NEUploadPropertys = nEUploadPropertyBases.ToList();
+                NEUploadPropertys = NEUploadPropertyBase.ToList();
             }
         }
 
