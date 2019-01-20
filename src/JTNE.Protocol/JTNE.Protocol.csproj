@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Copyright>Copyright 2018.</Copyright>
+    <Authors>SmallChi</Authors>
+    <PackageId>JTNewEnergy</PackageId>
+    <Product>JTNewEnergy</Product>
+    <Description>JTNewEnergy协议、GBNewEnergy协议、电动汽车远程服务与管理系统平台数据交换</Description>
+    <PackageReleaseNotes>JTNewEnergy协议、GBNewEnergy协议、电动汽车远程服务与管理系统平台数据交换</PackageReleaseNotes>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <RepositoryUrl>https://github.com/SmallChi/JTNewEnergy</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/SmallChi/JTNewEnergy</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/SmallChi/JTNewEnergy/blob/master/LICENSE</PackageLicenseUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>D:\My Project\JTNewEnergy\src\JTNE.Protocol\JTNE.Protocol.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>D:\My Project\JTNewEnergy\src\JTNE.Protocol\JTNE.Protocol.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
+    <PackageReference Include="System.Buffers" Version="4.5.0" />
+    <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
+    <PackageReference Include="System.Memory" Version="4.5.2" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.1" />
+  </ItemGroup>
+</Project>
