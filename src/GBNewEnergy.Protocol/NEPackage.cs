@@ -115,6 +115,7 @@ namespace GBNewEnergy.Protocol
             VIN = Buffer.ReadStringLittle(4, 17);
             EncryptMethod = (NEEncryptMethod)Buffer[21];
             DataUnitLength = Buffer.ReadUShortH2LLittle(22, 2);
+            //  2.4. 验证校验码
             // 进行BCC校验码
             // 校验位 = 报文长度 - 最后一位（校验位） - 偏移量（2）
             int checkBit = Buffer.Length - CheckBit - 2;

@@ -29,13 +29,13 @@ namespace GBNewEnergy.Protocol
         /// 登入流水号
         /// 作用：看数据是否是连续请求
         /// </summary>
-        public ushort LoginNum { get; protected set; }
+        public ushort LoginNum { get; set; }
 
         /// <summary>
         /// 数据采集时间
         /// 采用北京时间
         /// </summary>
-        public DateTime CurrentDateTime { get; protected set; } = DateTime.Now;
+        public DateTime CurrentDateTime { get; set; } = DateTime.Now;
 
         protected NEBodies(byte[] buffer, NEGlobalConfigs nEConfigs) : base(buffer, nEConfigs) { }
 

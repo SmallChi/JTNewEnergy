@@ -5,10 +5,10 @@
     <LangVersion>latest</LangVersion>
     <Copyright>Copyright 2018.</Copyright>
     <Authors>SmallChi</Authors>
-    <PackageId>JTNewEnergy</PackageId>
-    <Product>JTNewEnergy</Product>
-    <Description>JTNewEnergy协议、GBNewEnergy协议、电动汽车远程服务与管理系统平台数据交换</Description>
-    <PackageReleaseNotes>JTNewEnergy协议、GBNewEnergy协议、电动汽车远程服务与管理系统平台数据交换</PackageReleaseNotes>
+    <PackageId>JTNE.Protocol</PackageId>
+    <Product>JTNE.Protocol</Product>
+    <Description>JTNE协议、JTNewEnergy协议、GBNewEnergy协议、新能源协议、电动汽车远程服务与管理系统平台数据交换</Description>
+    <PackageReleaseNotes>JTNE协议、JTNewEnergy协议、GBNewEnergy协议、新能源协议、电动汽车远程服务与管理系统平台数据交换</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <RepositoryUrl>https://github.com/SmallChi/JTNewEnergy</RepositoryUrl>
     <PackageProjectUrl>https://github.com/SmallChi/JTNewEnergy</PackageProjectUrl>
