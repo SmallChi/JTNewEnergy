@@ -21,7 +21,7 @@ namespace JTNE.Protocol.Extensions
         /// <param name="offset"></param>
         /// <param name="format">D2： 10  X2：16</param>
         /// <returns></returns>
-        public static DateTime ReadDateTime6Little(ReadOnlySpan<byte> buf, ref int offset,string format= "X2")
+        public static DateTime ReadDateTime6Little(ReadOnlySpan<byte> buf, ref int offset,string format= "D2")
         {
             DateTime d = UTCBaseTime;
             try
@@ -49,7 +49,7 @@ namespace JTNE.Protocol.Extensions
         /// <param name="offset"></param>
         /// <param name="format">D2： 10  X2：16</param>
         /// <returns></returns>
-        public static DateTime ReadDateTime4Little(ReadOnlySpan<byte> buf, ref int offset, string format = "X2")
+        public static DateTime ReadDateTime4Little(ReadOnlySpan<byte> buf, ref int offset, string format = "D2")
         {
             DateTime d = UTCBaseTime;
             try
@@ -86,7 +86,7 @@ namespace JTNE.Protocol.Extensions
         /// <param name="offset"></param>
         /// <param name="format"></param>
         /// <returns></returns>
-        public static DateTime ReadDateTime5Little(ReadOnlySpan<byte> buf, ref int offset, string format = "X2")
+        public static DateTime ReadDateTime5Little(ReadOnlySpan<byte> buf, ref int offset, string format = "D2")
         {
 
             DateTime dateTime = new DateTime(
@@ -121,7 +121,7 @@ namespace JTNE.Protocol.Extensions
         /// <param name="date"></param>
         /// <param name="fromBase">BCD：10  HEX：16</param>
         /// <returns></returns>
-        public static int WriteDateTime6Little(byte[] bytes, int offset, DateTime date,int fromBase=16)
+        public static int WriteDateTime6Little(byte[] bytes, int offset, DateTime date,int fromBase=10)
         {
             bytes[offset] = Convert.ToByte(date.ToString("yy"), fromBase);
             bytes[offset + 1] = Convert.ToByte(date.ToString("MM"), fromBase);

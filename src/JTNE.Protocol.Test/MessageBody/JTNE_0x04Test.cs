@@ -16,13 +16,13 @@ namespace JTNE.Protocol.Test.MessageBody
             jTNE_0X04.LogoutTime = DateTime.Parse("2019-01-22 23:55:56");
             jTNE_0X04.LogoutNum = 4444;
             var hex = JTNESerializer.Serialize(jTNE_0X04).ToHexString();
-            Assert.Equal("190122235556115C", hex);
+            Assert.Equal("130116173738115C", hex);
         }
 
         [Fact]
         public void Test2()
         {
-            var data = "190122235556115C".ToHexBytes();
+            var data = "130116173738115C".ToHexBytes();
             JTNE_0x04 jTNE_0X04 = JTNESerializer.Deserialize<JTNE_0x04>(data);
             Assert.Equal(DateTime.Parse("2019-01-22 23:55:56"), jTNE_0X04.LogoutTime);
             Assert.Equal(4444, jTNE_0X04.LogoutNum);

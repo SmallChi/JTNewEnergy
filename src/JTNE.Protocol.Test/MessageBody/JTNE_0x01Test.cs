@@ -24,13 +24,13 @@ namespace JTNE.Protocol.Test.MessageBody
                "9870"
             };
             var hex = JTNESerializer.Serialize(jTNE_0X01).ToHexString();
-            Assert.Equal("190122235556000131323334353637383939383736353433323130300304313233343435363739383730", hex);
+            Assert.Equal("130116173738000131323334353637383939383736353433323130300304313233343435363739383730", hex);
         }
 
         [Fact]
         public void Test2()
         {
-            var data = "190122235556000131323334353637383939383736353433323130300304313233343435363739383730".ToHexBytes();
+            var data = "130116173738000131323334353637383939383736353433323130300304313233343435363739383730".ToHexBytes();
             JTNE_0x01 jTNE_0X01 = JTNESerializer.Deserialize<JTNE_0x01>(data);
             Assert.Equal(DateTime.Parse("2019-01-22 23:55:56"), jTNE_0X01.PDATime);
             Assert.Equal(1, jTNE_0X01.LoginNum);

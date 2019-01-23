@@ -19,13 +19,13 @@ namespace JTNE.Protocol.Test.MessageBody
             jTNE_0X05.PlatformPassword = "1234567890123456789";
             jTNE_0X05.EncryptMethod = 0x00;
             var hex = JTNESerializer.Serialize(jTNE_0X05).ToHexString();
-            Assert.Equal("1901222355561A0A536D616C6C43686935313800313233343536373839303132333435363738390000", hex);
+            Assert.Equal("1301161737381A0A536D616C6C43686935313800313233343536373839303132333435363738390000", hex);
         }
 
         [Fact]
         public void Test2()
         {
-            var data = "1901222355561A0A536D616C6C43686935313800313233343536373839303132333435363738390000".ToHexBytes();
+            var data = "1301161737381A0A536D616C6C43686935313800313233343536373839303132333435363738390000".ToHexBytes();
             JTNE_0x05 jTNE_0X05 = JTNESerializer.Deserialize<JTNE_0x05>(data);
             Assert.Equal(DateTime.Parse("2019-01-22 23:55:56"), jTNE_0X05.LoginTime);
             Assert.Equal(6666, jTNE_0X05.LoginNum);

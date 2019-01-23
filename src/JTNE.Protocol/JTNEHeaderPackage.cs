@@ -8,18 +8,17 @@ namespace JTNE.Protocol
     /// <summary>
     /// 新能源包
     /// </summary>
-    [JTNEFormatter(typeof(JTNEPackageFormatter))]
-    public class JTNEPackage
+    [JTNEFormatter(typeof(JTNEHeaderPackageFormatter))]
+    public class JTNEHeaderPackage
     {
-        public const byte BeginFlag = 0x23;
         /// <summary>
         /// 起始符1
         /// </summary>
-        public byte BeginFlag1 { get; set; } = BeginFlag;
+        public byte BeginFlag1 { get; set; } = JTNEPackage.BeginFlag;
         /// <summary>
         /// 起始符2 
         /// </summary>
-        public byte BeginFlag2 { get; set; } = BeginFlag;
+        public byte BeginFlag2 { get; set; } = JTNEPackage.BeginFlag;
         /// <summary>
         /// 命令标识 
         /// <see cref="JTNE.Protocol.Enums.JTNEMsgId"/>
@@ -47,7 +46,7 @@ namespace JTNE.Protocol
         /// <summary>
         /// 数据体
         /// </summary>
-        public JTNEBodies Bodies { get; set; }
+        public byte[] Bodies { get; set; }
         /// <summary>
         /// 采用BCC（异或检验）法，校验范围从命令单元的第一个字节开始，同后一个字节异或，直到校验码前一个字节为止，
         /// 校验码占用一个字节，当数据单元存在加密时，应先加密后检验，先校验后解密

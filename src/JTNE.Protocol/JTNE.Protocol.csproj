@@ -22,7 +22,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>D:\My Project\JTNewEnergy\src\JTNE.Protocol\JTNE.Protocol.xml</DocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\JTNE.Protocol.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

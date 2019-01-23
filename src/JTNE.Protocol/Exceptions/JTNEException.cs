@@ -17,6 +17,15 @@ namespace JTNE.Protocol.Exceptions
             this.ErrorCode = errorCode;
         }
 
+        public JTNEException(JTNEErrorCode errorCode, Exception ex) : base(ex.Message, ex)
+        {
+            ErrorCode = errorCode;
+        }
+
+        public JTNEException(JTNEErrorCode errorCode, string message, Exception ex) : base(ex.Message, ex)
+        {
+            ErrorCode = errorCode;
+        }
         public JTNEErrorCode ErrorCode { get; }
     }
 }

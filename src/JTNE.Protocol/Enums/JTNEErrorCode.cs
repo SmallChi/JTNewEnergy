@@ -19,8 +19,12 @@ namespace JTNE.Protocol.Enums
         BCCCodeError = 1002,
         /// <summary>
         /// 没有标记
-        /// <see cref="JT808.Protocol.Attributes.JT808FormatterAttribute"/>
+        /// <see cref="JTNE.Protocol.Attributes.JTNEFormatterAttribute"/>
         /// </summary>
         GetFormatterAttributeError = 1003,
+        /// <summary>
+        /// 解析数据体错误
+        /// </summary>
+        BodiesParseError=1004,
     }
 }

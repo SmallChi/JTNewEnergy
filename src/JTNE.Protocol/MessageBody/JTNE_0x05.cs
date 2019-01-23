@@ -30,8 +30,10 @@ namespace JTNE.Protocol.MessageBody
         /// </summary>
         public string PlatformPassword { get; set; }
         /// <summary>
-        /// 加密规则
+        /// 数据加密方式 (默认不加密)
+        /// 0x01：数据不加密；0x02：数据经过 RSA 算法加密；0x03:数据经过 AES128 位算法加密；“0xFE”表示异常，“0xFF”表示无效
+        /// <see cref="JTNE.Protocol.Enums.JTNEEncryptMethod"/>
         /// </summary>
-        public byte EncryptMethod{ get; set; }
+        public byte EncryptMethod { get; set; } = 0x01;
 }
 }

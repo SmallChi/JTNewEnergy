@@ -8,11 +8,9 @@ using System.Text;
 
 namespace JTNE.Protocol.Formatters
 {
-    public class JTNEPackageFormatter : IJTNEFormatter<JTNEPackage>
+    public class JTNEHeaderPackageFormatter : IJTNEFormatter<JTNEHeaderPackage>
     {
-        private const byte FixedDataBodyLength = 2;
-
-        public JTNEPackage Deserialize(ReadOnlySpan<byte> bytes, out int readSize)
+        public JTNEHeaderPackage Deserialize(ReadOnlySpan<byte> bytes, out int readSize)
         {
             int offset = 0;
             // 1.进行固定头校验
@@ -27,7 +25,7 @@ namespace JTNE.Protocol.Formatters
                 if (bCCCode != bCCCode2)
                     throw new JTNEException(JTNEErrorCode.BCCCodeError, $"request:{bCCCode}!=calculate:{bCCCode2}");
             }
-            JTNEPackage jTNEPackage = new JTNEPackage();
+            JTNEHeaderPackage jTNEPackage = new JTNEHeaderPackage();
             offset += 2;
             // 3.命令标识
             jTNEPackage.MsgId = JTNEBinaryExtensions.ReadByteLittle(bytes, ref offset);
@@ -50,10 +48,7 @@ namespace JTNE.Protocol.Formatters
                     int bodyReadSize = 0;
                     try
                     {
-                        jTNEPackage.Bodies = JTNEFormatterResolverExtensions.JTNEDynamicDeserialize(
-                            JTNEFormatterExtensions.GetFormatter(jTNEBodiesImplType),
-                            bytes.Slice(offset, jTNEPackage.DataUnitLength),
-                            out bodyReadSize);
+                        jTNEPackage.Bodies = bytes.Slice(offset, jTNEPackage.DataUnitLength).ToArray();
                     }
                     catch (Exception ex)
                     {
@@ -68,7 +63,7 @@ namespace JTNE.Protocol.Formatters
             return jTNEPackage;
         }
 
-        public int Serialize(ref byte[] bytes, int offset, JTNEPackage value)
+        public int Serialize(ref byte[] bytes, int offset, JTNEHeaderPackage value)
         {
             // 1.起始符1
             offset += JTNEBinaryExtensions.WriteByteLittle(bytes, offset, value.BeginFlag1);
@@ -82,29 +77,18 @@ namespace JTNE.Protocol.Formatters
             offset += JTNEBinaryExtensions.WriteStringPadRightLittle(bytes, offset, value.VIN, 17);
             // 6.数据加密方式
             offset += JTNEBinaryExtensions.WriteByteLittle(bytes, offset, value.EncryptMethod);
-            // 7.记录存储数据长度的当前偏移量
-            int tmpOffset = offset;
-            offset += FixedDataBodyLength;
-            // 8.数据体
-            Type jTNEBodiesImplType = JTNEMsgIdFactory.GetBodiesImplTypeByMsgId(value.MsgId);
-            int messageBodyOffset = 0;
-            if (jTNEBodiesImplType != null)
+            if (value.Bodies != null)
             {
-                if (value.Bodies != null)
-                {
-                    // 8.1 处理数据体
-                    // todo: 8.2.判断是否有加密
-                    messageBodyOffset = JTNEFormatterResolverExtensions.JTNEDynamicSerialize(
-                        JTNEFormatterExtensions.GetFormatter(jTNEBodiesImplType),
-                        ref bytes,
-                        offset,
-                        value.Bodies);
-                    // 9.通过tmpOffset反写数据单元长度
-                    JTNEBinaryExtensions.WriteUInt16Little(bytes, tmpOffset, (ushort)(messageBodyOffset - offset));
-                    offset = messageBodyOffset;
-                }
+                // 7.数据体
+                offset += JTNEBinaryExtensions.WriteUInt16Little(bytes, offset, (ushort)value.Bodies.Length);
+                // 8.处理数据体
+                offset += JTNEBinaryExtensions.WriteBytesLittle(bytes, offset, value.Bodies);
             }
-            // 10.校验码
+            else
+            {
+                offset += JTNEBinaryExtensions.WriteUInt16Little(bytes, offset, 0);
+            }
+            // 9.校验码
             var bccCode = bytes.ToXor(2, offset);
             offset += JTNEBinaryExtensions.WriteByteLittle(bytes, offset, bccCode);
             return offset;
