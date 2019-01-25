@@ -41,7 +41,7 @@ namespace JTNE.Protocol.Formatters
             jTNEPackage.DataUnitLength = JTNEBinaryExtensions.ReadUInt16Little(bytes, ref offset);
             // 8.数据体
             // 8.1.根据数据加密方式进行解码
-            // todo: 8.2.解析出对应数据体
+            // 8.2.解析出对应数据体
             if (jTNEPackage.DataUnitLength > 0)
             {
                 Type jTNEBodiesImplType = JTNEMsgIdFactory.GetBodiesImplTypeByMsgId(jTNEPackage.MsgId);
@@ -50,10 +50,25 @@ namespace JTNE.Protocol.Formatters
                     int bodyReadSize = 0;
                     try
                     {
-                        jTNEPackage.Bodies = JTNEFormatterResolverExtensions.JTNEDynamicDeserialize(
-                            JTNEFormatterExtensions.GetFormatter(jTNEBodiesImplType),
-                            bytes.Slice(offset, jTNEPackage.DataUnitLength),
-                            out bodyReadSize);
+                        if (jTNEPackage.EncryptMethod == 0x01)
+                        {
+                            jTNEPackage.Bodies = JTNEFormatterResolverExtensions.JTNEDynamicDeserialize(
+                                JTNEFormatterExtensions.GetFormatter(jTNEBodiesImplType),
+                                bytes.Slice(offset, jTNEPackage.DataUnitLength),
+                                out bodyReadSize);
+                        }
+                        else
+                        {
+                            if (JTNEGlobalConfigs.Instance.DataBodiesEncrypt != null)
+                            {
+                                var data = JTNEGlobalConfigs.Instance.DataBodiesEncrypt(jTNEPackage.EncryptMethod)
+                                    .Decrypt(bytes.Slice(offset, jTNEPackage.DataUnitLength).ToArray());
+                                jTNEPackage.Bodies = JTNEFormatterResolverExtensions.JTNEDynamicDeserialize(
+                                    JTNEFormatterExtensions.GetFormatter(jTNEBodiesImplType),
+                                    data,
+                                    out bodyReadSize);
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -82,9 +97,8 @@ namespace JTNE.Protocol.Formatters
             offset += JTNEBinaryExtensions.WriteStringPadRightLittle(bytes, offset, value.VIN, 17);
             // 6.数据加密方式
             offset += JTNEBinaryExtensions.WriteByteLittle(bytes, offset, value.EncryptMethod);
-            // 7.记录存储数据长度的当前偏移量
+            // 7.记录当前偏移量
             int tmpOffset = offset;
-            offset += FixedDataBodyLength;
             // 8.数据体
             Type jTNEBodiesImplType = JTNEMsgIdFactory.GetBodiesImplTypeByMsgId(value.MsgId);
             int messageBodyOffset = 0;
@@ -92,17 +106,46 @@ namespace JTNE.Protocol.Formatters
             {
                 if (value.Bodies != null)
                 {
-                    // 8.1 处理数据体
-                    // todo: 8.2.判断是否有加密
+                    // 8.1.处理数据体
+                    // 8.2.判断是否有加密
                     messageBodyOffset = JTNEFormatterResolverExtensions.JTNEDynamicSerialize(
                         JTNEFormatterExtensions.GetFormatter(jTNEBodiesImplType),
                         ref bytes,
-                        offset,
+                        offset + FixedDataBodyLength,
                         value.Bodies);
-                    // 9.通过tmpOffset反写数据单元长度
-                    JTNEBinaryExtensions.WriteUInt16Little(bytes, tmpOffset, (ushort)(messageBodyOffset - offset));
-                    offset = messageBodyOffset;
+                    if (value.EncryptMethod == 0x01)
+                    {
+                        // 9.通过tmpOffset反写数据单元长度
+                        JTNEBinaryExtensions.WriteUInt16Little(bytes, tmpOffset, (ushort)(messageBodyOffset - offset- FixedDataBodyLength));
+                        offset = messageBodyOffset;
+                    }
+                    else
+                    {
+                        if (JTNEGlobalConfigs.Instance.DataBodiesEncrypt != null)
+                        {
+                            // 8.1.先进行分割数据体
+                            var bodiesData = bytes.AsSpan(tmpOffset+ FixedDataBodyLength, messageBodyOffset - offset - FixedDataBodyLength).ToArray();
+                            // 8.2.将数据体进行加密
+                            var data = JTNEGlobalConfigs.Instance.DataBodiesEncrypt(value.EncryptMethod)
+                                        .Encrypt(bodiesData);
+                            // 9.通过tmpOffset反写加密后数据单元长度
+                            JTNEBinaryExtensions.WriteUInt16Little(bytes, tmpOffset, (ushort)data.Length);
+                            // 8.3.写入加密后的数据体
+                            offset += FixedDataBodyLength;
+                            offset += JTNEBinaryExtensions.WriteBytesLittle(bytes, offset, data);
+                        }
+                    }
                 }
+                else
+                {
+                    // 9.数据单元长度
+                    offset += JTNEBinaryExtensions.WriteUInt16Little(bytes, offset, 0);
+                }
+            }
+            else
+            {
+                // 9.数据单元长度
+                offset += JTNEBinaryExtensions.WriteUInt16Little(bytes, offset, 0);
             }
             // 10.校验码
             var bccCode = bytes.ToXor(2, offset);

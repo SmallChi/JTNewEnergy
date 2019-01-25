@@ -1,0 +1,15 @@
+language: csharp
+solution: JTNewEnergy.sln
+dotnet: 2.2.101
+os: linux
+mono: none
+dist: trusty2
+script:
+ - dotnet restore src/JTNewEnergy.sln
+ - dotnet build src/JTNE.Protocol.Test/JTNE.Protocol.Test.csproj
+ - dotnet test src/JTNE.Protocol.Test/JTNE.Protocol.Test.csproj
+after_success:
+ - echo successful build!
+branches:
+  only:
+    - master

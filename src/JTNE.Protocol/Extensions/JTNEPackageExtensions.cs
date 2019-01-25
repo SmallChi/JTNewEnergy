@@ -27,8 +27,6 @@ namespace JTNE.Protocol.Extensions
             jTNEPackage.MsgId = msgId.ToByteValue();
             jTNEPackage.Bodies = bodies;
             jTNEPackage.VIN = vin;
-            // todo:加密处理
-
             return jTNEPackage;
         }
 
@@ -45,8 +43,6 @@ namespace JTNE.Protocol.Extensions
             jTNEPackage.AskId = askId.ToByteValue();
             jTNEPackage.MsgId = msgId.ToByteValue();
             jTNEPackage.VIN = vin;
-            // todo:加密处理
-
             return jTNEPackage;
         }
 
@@ -67,8 +63,6 @@ namespace JTNE.Protocol.Extensions
             jTNEPackage.MsgId = msgId;
             jTNEPackage.Bodies = bodies;
             jTNEPackage.VIN = vin;
-            // todo:加密处理
-
             return jTNEPackage;
         }
 
@@ -85,8 +79,6 @@ namespace JTNE.Protocol.Extensions
             jTNEPackage.AskId = askId.ToByteValue();
             jTNEPackage.MsgId = msgId;
             jTNEPackage.VIN = vin;
-            // todo:加密处理
-
             return jTNEPackage;
         }
     }

@@ -35,7 +35,6 @@ namespace JTNE.Protocol
                 return instance.Value;
             }
         }
-
         /// <summary>
         /// 设备流水号
         /// </summary>
@@ -50,6 +49,18 @@ namespace JTNE.Protocol
         /// 默认：false
         /// </summary>
         public bool SkipCRCCode { get; private set; }
+        /// <summary>
+        /// 消息数据体加密算法
+        /// RSA=>IJTNEEncryptImpl
+        /// AES=>IJTNEEncryptImpl
+        /// </summary>
+        public Func<byte,IJTNEEncrypt> DataBodiesEncrypt { get; private set; }
+        /// <summary>
+        /// 平台登入加密算法
+        /// RSA=>IJTNEEncryptImpl
+        /// AES=>IJTNEEncryptImpl
+        /// </summary>
+        public Func<byte, IJTNEEncrypt> PlatformLoginEncrypt { get; private set; }
         /// <summary>
         /// 注册自定义消息
         /// </summary>
@@ -103,6 +114,26 @@ namespace JTNE.Protocol
         public JTNEGlobalConfigs SetPlatformMsgSNDistributed(IPlatformMsgSNDistributed platformMsgSNDistributed)
         {
             instance.Value.PlatformMsgSNDistributed = platformMsgSNDistributed;
+            return instance.Value;
+        }
+        /// <summary>
+        /// 设置消息数据体加密算法
+        /// </summary>
+        /// <param name="dataBodiesEncrypt"></param>
+        /// <returns></returns>
+        public JTNEGlobalConfigs SetDataBodiesEncrypt(Func<byte, IJTNEEncrypt> dataBodiesEncrypt)
+        {
+            instance.Value.DataBodiesEncrypt = dataBodiesEncrypt;
+            return instance.Value;
+        }
+        /// <summary>
+        /// 设置平台登入加密算法
+        /// </summary>
+        /// <param name="platformLoginEncrypt"></param>
+        /// <returns></returns>
+        public JTNEGlobalConfigs SetPlatformLoginEncrypt(Func<byte, IJTNEEncrypt> platformLoginEncrypt)
+        {
+            instance.Value.PlatformLoginEncrypt = platformLoginEncrypt;
             return instance.Value;
         }
     }
