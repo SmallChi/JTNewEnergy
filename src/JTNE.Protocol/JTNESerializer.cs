@@ -8,7 +8,7 @@ namespace JTNE.Protocol
     /// </summary>
     public static class JTNESerializer
     {
-        public static byte[] Serialize(JTNEPackage jTNEPackage, int minBufferSize = 1024)
+        public static byte[] Serialize(JTNEPackage jTNEPackage, int minBufferSize = 256)
         {
             return Serialize<JTNEPackage>(jTNEPackage, minBufferSize);
         }
@@ -18,7 +18,7 @@ namespace JTNE.Protocol
             return Deserialize<JTNEPackage>(bytes);
         }
 
-        public static byte[] Serialize<T>(T obj, int minBufferSize = 1024)
+        public static byte[] Serialize<T>(T obj, int minBufferSize = 256)
         {
             var formatter = JTNEFormatterExtensions.GetFormatter<T>();
             byte[] buffer = JTNEArrayPool.Rent(minBufferSize);

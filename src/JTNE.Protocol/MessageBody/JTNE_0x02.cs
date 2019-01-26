@@ -19,6 +19,6 @@ namespace JTNE.Protocol.MessageBody
         /// <summary>
         /// 自定义值
         /// </summary>
-        public Dictionary<byte, JTNE_0x02_Body> CusotmValues { get; set; }
+        public Dictionary<byte, byte[]> CusotmValues { get; set; }
     }
 }

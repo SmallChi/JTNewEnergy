@@ -12,7 +12,7 @@ namespace JTNE.Protocol.MessageBody
     [JTNEFormatter(typeof(JTNE_0x02_0x01_Formatter))]
     public class JTNE_0x02_0x01 : JTNE_0x02_Body
     {
-        public override byte TypeCode { get; set; } = 0x01;
+        public override byte TypeCode { get; set; } = JTNE_0x02_0x01;
 
         /// <summary>
         /// 车辆状态
