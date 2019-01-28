@@ -19,6 +19,7 @@ namespace JTNE.Protocol.Enums
         /// <summary>
         /// 实时信息上传
         /// </summary>
+        [JTNEBodiesType(typeof(JTNE_0x02))]
         uploadim = 0x02,
         /// <summary>
         /// 补传信息上传
