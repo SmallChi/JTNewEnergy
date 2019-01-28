@@ -17,6 +17,10 @@ namespace JTNE.Protocol.MessageBody
         /// </summary>
         public Dictionary<byte, JTNE_0x02_Body> Values { get; set; }
         /// <summary>
+        /// 用于构造序列化自定义值
+        /// </summary>
+        public Dictionary<byte, JTNE_0x02_CustomBody> CusotmSerializeObjectValues { get; set; }
+        /// <summary>
         /// 自定义值
         /// </summary>
         public Dictionary<byte, byte[]> CusotmValues { get; set; }

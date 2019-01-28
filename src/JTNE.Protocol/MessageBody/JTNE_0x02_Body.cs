@@ -6,6 +6,9 @@ namespace JTNE.Protocol.MessageBody
 {
     public abstract class JTNE_0x02_Body
     {
+        /// <summary>
+        /// 类型编码
+        /// </summary>
         public abstract byte TypeCode { get; set; }
 
         /// <summary>
@@ -47,19 +50,19 @@ namespace JTNE.Protocol.MessageBody
 
         static JTNE_0x02_Body()
         {
-            Keys = new Dictionary<byte, Type>();
-            Keys.Add(JTNE_0x02_0x01, typeof(JTNE_0x02_0x01));
-            Keys.Add(JTNE_0x02_0x02, typeof(JTNE_0x02_0x02));
-            Keys.Add(JTNE_0x02_0x03, typeof(JTNE_0x02_0x03));
-            Keys.Add(JTNE_0x02_0x04, typeof(JTNE_0x02_0x04));
-            Keys.Add(JTNE_0x02_0x05, typeof(JTNE_0x02_0x05));
-            Keys.Add(JTNE_0x02_0x06, typeof(JTNE_0x02_0x06));
-            Keys.Add(JTNE_0x02_0x07, typeof(JTNE_0x02_0x07));
-            Keys.Add(JTNE_0x02_0x08, typeof(JTNE_0x02_0x08));
-            Keys.Add(JTNE_0x02_0x09, typeof(JTNE_0x02_0x09));
+            TypeCodes = new Dictionary<byte, Type>();
+            TypeCodes.Add(JTNE_0x02_0x01, typeof(JTNE_0x02_0x01));
+            TypeCodes.Add(JTNE_0x02_0x02, typeof(JTNE_0x02_0x02));
+            TypeCodes.Add(JTNE_0x02_0x03, typeof(JTNE_0x02_0x03));
+            TypeCodes.Add(JTNE_0x02_0x04, typeof(JTNE_0x02_0x04));
+            TypeCodes.Add(JTNE_0x02_0x05, typeof(JTNE_0x02_0x05));
+            TypeCodes.Add(JTNE_0x02_0x06, typeof(JTNE_0x02_0x06));
+            TypeCodes.Add(JTNE_0x02_0x07, typeof(JTNE_0x02_0x07));
+            TypeCodes.Add(JTNE_0x02_0x08, typeof(JTNE_0x02_0x08));
+            TypeCodes.Add(JTNE_0x02_0x09, typeof(JTNE_0x02_0x09));
         }
 
-        internal static Dictionary<byte, Type> Keys;
+        internal static Dictionary<byte, Type> TypeCodes;
 
 
     }

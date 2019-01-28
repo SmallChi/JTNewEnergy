@@ -1,5 +1,8 @@
 ﻿using JTNE.Protocol.Extensions;
 using System;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("JTNE.Protocol.Test")]
 
 namespace JTNE.Protocol
 {

@@ -1,5 +1,6 @@
 ﻿using JTNE.Protocol.Interfaces;
 using JTNE.Protocol.Internal;
+using JTNE.Protocol.MessageBody;
 using System;
 using System.Text;
 
@@ -83,6 +84,20 @@ namespace JTNE.Protocol
                where TJTNEBodies : JTNEBodies
         {
             JTNEMsgIdFactory.ReplaceMap<TJTNEBodies>(overwriteMsgId);
+            return instance.Value;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="typeCode">自定义类型编码</param>
+        /// <param name="type">继承JTNE.Protocol.MessageBody.JTNE_0x02_CustomBody</param>
+        /// <returns></returns>
+        public JTNEGlobalConfigs Register_JTNE0x02CustomBody(byte typeCode, Type type)
+        {
+            if (!JTNE_0x02_CustomBody.CustomTypeCodes.ContainsKey(typeCode))
+            {
+                JTNE_0x02_CustomBody.CustomTypeCodes.Add(typeCode, type);
+            }
             return instance.Value;
         }
         /// <summary>
