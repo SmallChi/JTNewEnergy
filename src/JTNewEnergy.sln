@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JTNE.Protocol", "JTNE.Proto
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JTNE.Protocol.Test", "JTNE.Protocol.Test\JTNE.Protocol.Test.csproj", "{30BB532E-4E49-4BB4-A1D4-61DC40F320DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JTNE.Protocol.Benchmark", "JTNE.Protocol.Benchmark\JTNE.Protocol.Benchmark.csproj", "{CC6DFCDE-4A75-4643-9416-D459EE9CC88C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JTNE.Protocol.Benchmark", "JTNE.Protocol.Benchmark\JTNE.Protocol.Benchmark.csproj", "{CC6DFCDE-4A75-4643-9416-D459EE9CC88C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

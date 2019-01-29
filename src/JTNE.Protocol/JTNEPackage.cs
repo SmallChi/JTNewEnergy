@@ -11,6 +11,7 @@ namespace JTNE.Protocol
     [JTNEFormatter(typeof(JTNEPackageFormatter))]
     public class JTNEPackage
     {
+        public const int FixedHeaderLength = 24;
         public const byte BeginFlag = 0x23;
         /// <summary>
         /// 起始符1

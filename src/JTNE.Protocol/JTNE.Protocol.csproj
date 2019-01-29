@@ -7,8 +7,8 @@
     <Authors>SmallChi</Authors>
     <PackageId>JTNewEnergy</PackageId>
     <Product>JTNewEnergy</Product>
-    <Description>JTNE协议、JTNewEnergy协议、GBNewEnergy协议、新能源协议、电动汽车远程服务与管理系统平台数据交换</Description>
-    <PackageReleaseNotes>JTNE协议、JTNewEnergy协议、GBNewEnergy协议、新能源协议、电动汽车远程服务与管理系统平台数据交换</PackageReleaseNotes>
+    <Description>JTNE协议、JTNewEnergy协议、GBNewEnergy协议、新能源协议、电动汽车远程服务与管理系统平台数据交换协议</Description>
+    <PackageReleaseNotes>JTNE协议、JTNewEnergy协议、GBNewEnergy协议、新能源协议、电动汽车远程服务与管理系统平台数据交换协议</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <RepositoryUrl>https://github.com/SmallChi/JTNewEnergy</RepositoryUrl>
     <PackageProjectUrl>https://github.com/SmallChi/JTNewEnergy</PackageProjectUrl>
