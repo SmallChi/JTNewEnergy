@@ -26,6 +26,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Formatters\MessageBodyFormatters\JTNE_0x82_0x00Formatter.cs" />
+    <Compile Remove="Formatters\MessageBodyFormatters\JTNE_0x82_0x02Formatter.cs" />
+    <Compile Remove="Formatters\MessageBodyFormatters\JTNE_0x82_0x03Formatter.cs" />
+    <Compile Remove="Formatters\MessageBodyFormatters\JTNE_0x82_0x04Formatter.cs" />
+    <Compile Remove="Formatters\MessageBodyFormatters\JTNE_0x82_0x05Formatter.cs" />
+    <Compile Remove="Formatters\MessageBodyFormatters\JTNE_0x82_0x07Formatter.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
     <PackageReference Include="System.Buffers" Version="4.5.0" />
     <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />

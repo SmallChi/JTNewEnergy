@@ -101,6 +101,76 @@ namespace JTNE.Protocol
             return instance.Value;
         }
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="typeCode">自定义类型编码</param>
+        /// <param name="type">继承JTNE.Protocol.MessageBody.JTNE_0x81_Body</param>
+        /// <returns></returns>
+        public JTNEGlobalConfigs Register_JTNE0x81CustomBody(byte typeCode, Type type)
+        {
+            if (!JTNE_0x81_Body.JTNE_0x81Method.ContainsKey(typeCode))
+            {
+                JTNE_0x81_Body.JTNE_0x81Method.Add(typeCode, type);
+            }
+            return instance.Value;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="typeCode">自定义类型编码</param>
+        /// <param name="type">继承JTNE.Protocol.MessageBody.JTNE_0x81_Body</param>
+        /// <returns></returns>
+        public JTNEGlobalConfigs Register_JTNE0x81CustomDepenedBody(byte DependerParamId, byte DependedParamId)
+        {
+            if (!JTNE_0x81_Body.JTNE_0x81LengthOfADependOnValueOfB.ContainsKey(DependerParamId))
+            {
+                JTNE_0x81_Body.JTNE_0x81LengthOfADependOnValueOfB.Add(DependerParamId, DependedParamId);
+            }
+            return instance.Value;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="typeCode">自定义类型编码</param>
+        /// <param name="type">继承JTNE.Protocol.MessageBody.JTNE_0x80Reply_Body</param>
+        /// <returns></returns>
+        public JTNEGlobalConfigs Register_JTNE0x80ReplyCustomBody(byte typeCode, Type type)
+        {
+            if (!JTNE_0x80Reply_Body.JTNE_0x80ReplyMethod.ContainsKey(typeCode))
+            {
+                JTNE_0x80Reply_Body.JTNE_0x80ReplyMethod.Add(typeCode, type);
+            }
+            return instance.Value;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="typeCode">自定义类型编码</param>
+        /// <param name="type">继承JTNE.Protocol.MessageBody.JTNE_0x80Reply_Body</param>
+        /// <returns></returns>
+        public JTNEGlobalConfigs Register_JTNE0x80ReplyCustomDepenedBody(byte DependerParamId, byte DependedParamId)
+        {
+            if (!JTNE_0x80Reply_Body.JTNE_0x80ReplyLengthOfADependOnValueOfB.ContainsKey(DependerParamId))
+            {
+                JTNE_0x80Reply_Body.JTNE_0x80ReplyLengthOfADependOnValueOfB.Add(DependerParamId, DependedParamId);
+            }
+            return instance.Value;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="typeCode">自定义类型编码</param>
+        /// <param name="type">继承JTNE.Protocol.MessageBody.JTNE_0x81_Body</param>
+        /// <returns></returns>
+        public JTNEGlobalConfigs Register_JTNE0x82CustomBody(byte typeCode, Type type)
+        {
+            if (!JTNE_0x82_Body.JTNE_0x82Method.ContainsKey(typeCode))
+            {
+                JTNE_0x82_Body.JTNE_0x82Method.Add(typeCode, type);
+            }
+            return instance.Value;
+        }
+        /// <summary>
         /// 设置跳过校验码
         /// 场景：测试的时候，可能需要手动改数据，所以测试的时候有用
         /// </summary>
