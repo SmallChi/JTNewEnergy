@@ -13,7 +13,7 @@ namespace JTNE.Protocol.MessageBody
     public class JTNE_0x81 : JTNEBodies
     {
         /// <summary>
-        /// 操作时间
+        /// 操作时间（若为设置操作时，则为设置时间，若为参数查询响应时，则为参数查询响应时间）
         /// </summary>
         public DateTime OperateTime { get; set; }
         /// <summary>
