@@ -7,14 +7,11 @@ using System.Text;
 namespace JTNE.Protocol.MessageBody
 {
     /// <summary>
-    /// 参数查询响应
+    /// 实时信息上报
     /// </summary>
-    [JTNEFormatter(typeof(JTNE_0x80Reply_Formatter))]
-    public class JTNE_0x80Reply : JTNEBodies
+    [JTNEFormatter(typeof(JTNE_0x03_Formatter))]
+    public class JTNE_0x03 : JTNEBodies
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        public JTNE_0x81 JTNE_Reply0x80 { get; set; }
+        public JTNE_0x02 Supplement { get; set; }
     }
 }

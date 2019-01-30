@@ -7,15 +7,15 @@ using System.Text;
 namespace JTNE.Protocol.MessageBody
 {
     /// <summary>
-    /// 参数查询
+    /// 参数设置
     /// </summary>
     [JTNEFormatter(typeof(JTNE_0x81_Formatter))]
     public class JTNE_0x81 : JTNEBodies
     {
         /// <summary>
-        /// 设置时间
+        /// 操作时间
         /// </summary>
-        public DateTime SetTime { get; set; }
+        public DateTime OperateTime { get; set; }
         /// <summary>
         /// 参数总数
         /// </summary>

@@ -26,12 +26,45 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Formatters\MessageBodyFormatters\JTNE_0x80Reply_0x01Formatter.cs" />
+    <Compile Remove="Formatters\MessageBodyFormatters\JTNE_0x80Reply_0x02Formatter.cs" />
+    <Compile Remove="Formatters\MessageBodyFormatters\JTNE_0x80Reply_0x03Formatter.cs" />
+    <Compile Remove="Formatters\MessageBodyFormatters\JTNE_0x80Reply_0x04Formatter.cs" />
+    <Compile Remove="Formatters\MessageBodyFormatters\JTNE_0x80Reply_0x05Formatter.cs" />
+    <Compile Remove="Formatters\MessageBodyFormatters\JTNE_0x80Reply_0x06Formatter.cs" />
+    <Compile Remove="Formatters\MessageBodyFormatters\JTNE_0x80Reply_0x07Formatter.cs" />
+    <Compile Remove="Formatters\MessageBodyFormatters\JTNE_0x80Reply_0x08Formatter.cs" />
+    <Compile Remove="Formatters\MessageBodyFormatters\JTNE_0x80Reply_0x09Formatter.cs" />
+    <Compile Remove="Formatters\MessageBodyFormatters\JTNE_0x80Reply_0x0AFormatter.cs" />
+    <Compile Remove="Formatters\MessageBodyFormatters\JTNE_0x80Reply_0x0BFormatter.cs" />
+    <Compile Remove="Formatters\MessageBodyFormatters\JTNE_0x80Reply_0x0CFormatter.cs" />
+    <Compile Remove="Formatters\MessageBodyFormatters\JTNE_0x80Reply_0x0DFormatter.cs" />
+    <Compile Remove="Formatters\MessageBodyFormatters\JTNE_0x80Reply_0x0EFormatter.cs" />
+    <Compile Remove="Formatters\MessageBodyFormatters\JTNE_0x80Reply_0x0FFormatter.cs" />
+    <Compile Remove="Formatters\MessageBodyFormatters\JTNE_0x80Reply_0x10Formatter.cs" />
     <Compile Remove="Formatters\MessageBodyFormatters\JTNE_0x82_0x00Formatter.cs" />
     <Compile Remove="Formatters\MessageBodyFormatters\JTNE_0x82_0x02Formatter.cs" />
     <Compile Remove="Formatters\MessageBodyFormatters\JTNE_0x82_0x03Formatter.cs" />
     <Compile Remove="Formatters\MessageBodyFormatters\JTNE_0x82_0x04Formatter.cs" />
     <Compile Remove="Formatters\MessageBodyFormatters\JTNE_0x82_0x05Formatter.cs" />
     <Compile Remove="Formatters\MessageBodyFormatters\JTNE_0x82_0x07Formatter.cs" />
+    <Compile Remove="MessageBody\JTNE_0x80Reply_0x01.cs" />
+    <Compile Remove="MessageBody\JTNE_0x80Reply_0x02.cs" />
+    <Compile Remove="MessageBody\JTNE_0x80Reply_0x03.cs" />
+    <Compile Remove="MessageBody\JTNE_0x80Reply_0x04.cs" />
+    <Compile Remove="MessageBody\JTNE_0x80Reply_0x05.cs" />
+    <Compile Remove="MessageBody\JTNE_0x80Reply_0x06.cs" />
+    <Compile Remove="MessageBody\JTNE_0x80Reply_0x07.cs" />
+    <Compile Remove="MessageBody\JTNE_0x80Reply_0x08.cs" />
+    <Compile Remove="MessageBody\JTNE_0x80Reply_0x09.cs" />
+    <Compile Remove="MessageBody\JTNE_0x80Reply_0x0A.cs" />
+    <Compile Remove="MessageBody\JTNE_0x80Reply_0x0B.cs" />
+    <Compile Remove="MessageBody\JTNE_0x80Reply_0x0C.cs" />
+    <Compile Remove="MessageBody\JTNE_0x80Reply_0x0D.cs" />
+    <Compile Remove="MessageBody\JTNE_0x80Reply_0x0E.cs" />
+    <Compile Remove="MessageBody\JTNE_0x80Reply_0x0F.cs" />
+    <Compile Remove="MessageBody\JTNE_0x80Reply_0x10.cs" />
+    <Compile Remove="MessageBody\JTNE_0x80Reply_Body.cs" />
   </ItemGroup>
 
   <ItemGroup>

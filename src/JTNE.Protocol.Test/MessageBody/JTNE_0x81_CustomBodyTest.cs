@@ -22,7 +22,7 @@ namespace JTNE.Protocol.Test.MessageBody
 
 
             JTNE_0x81 jTNE_0X81 = new JTNE_0x81();
-            jTNE_0X81.SetTime = DateTime.Parse("2019-01-22 23:55:56");
+            jTNE_0X81.OperateTime = DateTime.Parse("2019-01-22 23:55:56");
             jTNE_0X81.ParamNum = 2;
             jTNE_0X81.ParamList = new List<JTNE_0x81_Body> {
                 new JTNE_0x81_0x80{            
@@ -45,7 +45,7 @@ namespace JTNE.Protocol.Test.MessageBody
 
             var data = "13011617373802800681010203040506".ToHexBytes();
             JTNE_0x81 jTNE_0X81 = JTNESerializer.Deserialize<JTNE_0x81>(data);
-            Assert.Equal(DateTime.Parse("2019-01-22 23:55:56"), jTNE_0X81.SetTime);
+            Assert.Equal(DateTime.Parse("2019-01-22 23:55:56"), jTNE_0X81.OperateTime);
             Assert.Equal(jTNE_0X81.ParamList.Count, jTNE_0X81.ParamNum);
             Assert.Equal(Newtonsoft.Json.JsonConvert.SerializeObject(new List<JTNE_0x81_Body> {
                new JTNE_0x81_0x80{

@@ -13,7 +13,7 @@ namespace JTNE.Protocol.Formatters.MessageBodyFormatters
         {
             int offset = 0;
             JTNE_0x81 jTNE_0X81 = new JTNE_0x81();
-            jTNE_0X81.SetTime = JTNEBinaryExtensions.ReadDateTime6Little(bytes, ref offset);
+            jTNE_0X81.OperateTime = JTNEBinaryExtensions.ReadDateTime6Little(bytes, ref offset);
             jTNE_0X81.ParamNum = JTNEBinaryExtensions.ReadByteLittle(bytes, ref offset);
             for (int i = 0; i < jTNE_0X81.ParamNum; i++)
             {
@@ -48,7 +48,7 @@ namespace JTNE.Protocol.Formatters.MessageBodyFormatters
 
         public int Serialize(ref byte[] bytes, int offset, JTNE_0x81 value)
         {
-            offset += JTNEBinaryExtensions.WriteDateTime6Little(bytes, offset, value.SetTime);
+            offset += JTNEBinaryExtensions.WriteDateTime6Little(bytes, offset, value.OperateTime);
             offset += JTNEBinaryExtensions.WriteByteLittle(bytes, offset, value.ParamNum);
             foreach (var item in value.ParamList)
             {

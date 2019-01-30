@@ -132,34 +132,6 @@ namespace JTNE.Protocol
         /// 
         /// </summary>
         /// <param name="typeCode">自定义类型编码</param>
-        /// <param name="type">继承JTNE.Protocol.MessageBody.JTNE_0x80Reply_Body</param>
-        /// <returns></returns>
-        public JTNEGlobalConfigs Register_JTNE0x80ReplyCustomBody(byte typeCode, Type type)
-        {
-            if (!JTNE_0x80Reply_Body.JTNE_0x80ReplyMethod.ContainsKey(typeCode))
-            {
-                JTNE_0x80Reply_Body.JTNE_0x80ReplyMethod.Add(typeCode, type);
-            }
-            return instance.Value;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="typeCode">自定义类型编码</param>
-        /// <param name="type">继承JTNE.Protocol.MessageBody.JTNE_0x80Reply_Body</param>
-        /// <returns></returns>
-        public JTNEGlobalConfigs Register_JTNE0x80ReplyCustomDepenedBody(byte DependerParamId, byte DependedParamId)
-        {
-            if (!JTNE_0x80Reply_Body.JTNE_0x80ReplyLengthOfADependOnValueOfB.ContainsKey(DependerParamId))
-            {
-                JTNE_0x80Reply_Body.JTNE_0x80ReplyLengthOfADependOnValueOfB.Add(DependerParamId, DependedParamId);
-            }
-            return instance.Value;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="typeCode">自定义类型编码</param>
         /// <param name="type">继承JTNE.Protocol.MessageBody.JTNE_0x81_Body</param>
         /// <returns></returns>
         public JTNEGlobalConfigs Register_JTNE0x82CustomBody(byte typeCode, Type type)

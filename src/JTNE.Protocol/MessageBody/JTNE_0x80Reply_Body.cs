@@ -7,7 +7,7 @@ using System.Text;
 namespace JTNE.Protocol.MessageBody
 {
     /// <summary>
-    /// 参数查询
+    /// 参数查询响应
     /// </summary>
     public abstract class  JTNE_0x80Reply_Body
     {
@@ -132,34 +132,6 @@ namespace JTNE.Protocol.MessageBody
             JTNE_0x80ReplyLengthOfADependOnValueOfB = new Dictionary<byte, byte>();
             JTNE_0x80ReplyLengthOfADependOnValueOfB.Add(JTNE_0x80Reply_0x05_Type, JTNE_0x80Reply_0x04_Type);
             JTNE_0x80ReplyLengthOfADependOnValueOfB.Add(JTNE_0x80Reply_0x0E_Type, JTNE_0x80Reply_0x0D_Type);
-        }
-
-        internal static void AddJTNE_0x80ReplyMethod(byte paramId, Type type)
-        {
-            if (!JTNE_0x80ReplyMethod.ContainsKey(paramId))
-            {
-                JTNE_0x80ReplyMethod.Add(paramId, type);
-            }
-            else
-            {
-                JTNE_0x80ReplyMethod[paramId] = type;
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="DependerParamId">依赖者</param>
-        /// <param name="DependedParamId">被依赖者</param>
-        internal static void AddJTNE_0x80ReplyLengthOfADependOnValueOfBMethod(byte DependerParamId, byte DependedParamId)
-        {
-            if (!JTNE_0x80ReplyLengthOfADependOnValueOfB.ContainsKey(DependerParamId))
-            {
-                JTNE_0x80ReplyLengthOfADependOnValueOfB.Add(DependerParamId, DependedParamId);
-            }
-            else
-            {
-                JTNE_0x80ReplyLengthOfADependOnValueOfB[DependerParamId] = DependedParamId;
-            }
         }
     }
 }

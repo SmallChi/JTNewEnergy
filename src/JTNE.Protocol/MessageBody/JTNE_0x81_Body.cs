@@ -7,7 +7,7 @@ using System.Text;
 namespace JTNE.Protocol.MessageBody
 {
     /// <summary>
-    /// 参数查询
+    /// 参数设置
     /// </summary>
     public abstract class  JTNE_0x81_Body
     {
@@ -132,34 +132,6 @@ namespace JTNE.Protocol.MessageBody
             JTNE_0x81LengthOfADependOnValueOfB = new Dictionary<byte, byte>();
             JTNE_0x81LengthOfADependOnValueOfB.Add(JTNE_0x81_0x05_Type, JTNE_0x81_0x04_Type);
             JTNE_0x81LengthOfADependOnValueOfB.Add(JTNE_0x81_0x0E_Type, JTNE_0x81_0x0D_Type);
-        }
-
-        internal static void AddJTNE_0x81Method(byte paramId, Type type)
-        {
-            if (!JTNE_0x81Method.ContainsKey(paramId))
-            {
-                JTNE_0x81Method.Add(paramId, type);
-            }
-            else
-            {
-                JTNE_0x81Method[paramId] = type;
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="DependerParamId">依赖者</param>
-        /// <param name="DependedParamId">被依赖者</param>
-        internal static void AddJTNE_0x81LengthOfADependOnValueOfBMethod(byte DependerParamId, byte DependedParamId)
-        {
-            if (!JTNE_0x81LengthOfADependOnValueOfB.ContainsKey(DependerParamId))
-            {
-                JTNE_0x81LengthOfADependOnValueOfB.Add(DependerParamId, DependedParamId);
-            }
-            else
-            {
-                JTNE_0x81LengthOfADependOnValueOfB[DependerParamId] = DependedParamId;
-            }
         }
     }
 }

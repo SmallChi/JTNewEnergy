@@ -7,7 +7,7 @@ using System.Text;
 namespace JTNE.Protocol.MessageBody
 {
     /// <summary>
-    /// 参数查询
+    /// 终端控制
     /// </summary>
     public class  JTNE_0x82_Body
     {
@@ -66,18 +66,6 @@ namespace JTNE.Protocol.MessageBody
             JTNE_0x82Method = new Dictionary<byte, Type>();
             JTNE_0x82Method.Add(JTNE_0x82_0x01_Type, typeof(JTNE_0x82_0x01));
             JTNE_0x82Method.Add(JTNE_0x82_0x06_Type, typeof(JTNE_0x82_0x06));
-        }
-
-        internal static void AddJTNE_0x82Method(byte paramId, Type type)
-        {
-            if (!JTNE_0x82Method.ContainsKey(paramId))
-            {
-                JTNE_0x82Method.Add(paramId, type);
-            }
-            else
-            {
-                JTNE_0x82Method[paramId] = type;
-            }
         }
     }
 }
