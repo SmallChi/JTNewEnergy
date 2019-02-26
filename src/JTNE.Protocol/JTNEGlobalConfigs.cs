@@ -71,7 +71,7 @@ namespace JTNE.Protocol
         public JTNEGlobalConfigs Register_CustomMsgId<TJTNEBodies>(byte customMsgId)
                where TJTNEBodies : JTNEBodies
         {
-            JTNEMsgIdFactory.SetMap<TJTNEBodies>(customMsgId);
+            JTNEMsgId_DeviceFactory.SetMap<TJTNEBodies>(customMsgId);
             return instance.Value;
         }
         /// <summary>
@@ -83,20 +83,34 @@ namespace JTNE.Protocol
         public JTNEGlobalConfigs Overwrite_MsgId<TJTNEBodies>(byte overwriteMsgId)
                where TJTNEBodies : JTNEBodies
         {
-            JTNEMsgIdFactory.ReplaceMap<TJTNEBodies>(overwriteMsgId);
+            JTNEMsgId_DeviceFactory.ReplaceMap<TJTNEBodies>(overwriteMsgId);
             return instance.Value;
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="typeCode">自定义类型编码</param>
-        /// <param name="type">继承JTNE.Protocol.MessageBody.JTNE_0x02_CustomBody</param>
+        /// <param name="type">继承JTNE.Protocol.MessageBody.JTNE_0x02_CustomBody_Device</param>
         /// <returns></returns>
-        public JTNEGlobalConfigs Register_JTNE0x02CustomBody(byte typeCode, Type type)
+        public JTNEGlobalConfigs Register_JTNE0x02CustomBody_Device(byte typeCode, Type type)
         {
-            if (!JTNE_0x02_CustomBody.CustomTypeCodes.ContainsKey(typeCode))
+            if (!JTNE_0x02_CustomBody_Device.CustomTypeCodes.ContainsKey(typeCode))
             {
-                JTNE_0x02_CustomBody.CustomTypeCodes.Add(typeCode, type);
+                JTNE_0x02_CustomBody_Device.CustomTypeCodes.Add(typeCode, type);
+            }
+            return instance.Value;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="typeCode">自定义类型编码</param>
+        /// <param name="type">继承JTNE.Protocol.MessageBody.JTNE_0x02_CustomBody_Platform</param>
+        /// <returns></returns>
+        public JTNEGlobalConfigs Register_JTNE0x02CustomBody_Platform(byte typeCode, Type type)
+        {
+            if (!JTNE_0x02_CustomBody_Platform.CustomTypeCodes.ContainsKey(typeCode))
+            {
+                JTNE_0x02_CustomBody_Platform.CustomTypeCodes.Add(typeCode, type);
             }
             return instance.Value;
         }
@@ -108,9 +122,9 @@ namespace JTNE.Protocol
         /// <returns></returns>
         public JTNEGlobalConfigs Register_JTNE0x81CustomBody(byte typeCode, Type type)
         {
-            if (!JTNE_0x81_Body.JTNE_0x81Method.ContainsKey(typeCode))
+            if (!JTNE_0x81_Body_Device.JTNE_0x81Method.ContainsKey(typeCode))
             {
-                JTNE_0x81_Body.JTNE_0x81Method.Add(typeCode, type);
+                JTNE_0x81_Body_Device.JTNE_0x81Method.Add(typeCode, type);
             }
             return instance.Value;
         }
@@ -122,9 +136,9 @@ namespace JTNE.Protocol
         /// <returns></returns>
         public JTNEGlobalConfigs Register_JTNE0x81CustomDepenedBody(byte DependerParamId, byte DependedParamId)
         {
-            if (!JTNE_0x81_Body.JTNE_0x81LengthOfADependOnValueOfB.ContainsKey(DependerParamId))
+            if (!JTNE_0x81_Body_Device.JTNE_0x81LengthOfADependOnValueOfB.ContainsKey(DependerParamId))
             {
-                JTNE_0x81_Body.JTNE_0x81LengthOfADependOnValueOfB.Add(DependerParamId, DependedParamId);
+                JTNE_0x81_Body_Device.JTNE_0x81LengthOfADependOnValueOfB.Add(DependerParamId, DependedParamId);
             }
             return instance.Value;
         }
@@ -136,9 +150,9 @@ namespace JTNE.Protocol
         /// <returns></returns>
         public JTNEGlobalConfigs Register_JTNE0x82CustomBody(byte typeCode, Type type)
         {
-            if (!JTNE_0x82_Body.JTNE_0x82Method.ContainsKey(typeCode))
+            if (!JTNE_0x82_Body_Device.JTNE_0x82Method.ContainsKey(typeCode))
             {
-                JTNE_0x82_Body.JTNE_0x82Method.Add(typeCode, type);
+                JTNE_0x82_Body_Device.JTNE_0x82Method.Add(typeCode, type);
             }
             return instance.Value;
         }
